@@ -1,46 +1,44 @@
-<!doctype html>
+<?
+$version = "v0.0.1";
+?>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>MMO</title>
-	<script src="jquery-1.7.1.min.js"></script>
-	<script src="jquery.mousewheel.min.js"></script>
-	<script src="speech_bubble.js"></script>
-	<script src="jsbih.js"></script>
-	<script src="config.js"></script>
-	<script src="linkedlist.js"></script>
-	<script src="key.js"></script>
-	<script src="proxy.js"></script>
-	<script src="proxymanager.js"></script>
-	<script src="util.js"></script>
-	<script src="game.js"></script>
-	<script src="main.js"></script>
+	<title>MetaVerse</title>
+	<link rel="stylesheet" type="text/css" href="styles.css?<? echo time(); ?>" />
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript" src="js/speech_bubble.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/jsbih.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/config.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/linkedlist.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/key.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/proxy.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/proxymanager.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/util.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/game.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/main.js?<? echo time(); ?>"></script>
 </head>
 <body>
-	<canvas id="canvas" width="640" height="480" style="display:none;">
-		Your browser does not support the HTML5 canvas element
-	</canvas>
-	<br>
+	<div id="viewport">
+		<canvas id="canvas" width="800" height="580" style="display:none;">
+		Your browser does not support the HTML5 canvas element</canvas>
+	</div>
 	<div id="login-div">
+		<img src="images/logo.png" alt="MetaVerse" /><br />
+		<div id="version"><? echo $version; ?></div><br />
 		<form action="#" id="login-form">
-		<label>Username</label>
-		<input type="text" id="username" placeholder="Username"></input>
-		<br>
-		<label>Password</label>
-		<input type="password" id="password" placeholder="password" value="kissa"></input>
-		<br>
-		<input type="submit">
+			<input type="text" id="username" placeholder="Username" /><br /><br />
+			<input type="password" id="password" placeholder="Password" value="kissa" /><br /><br />
+			<input type="submit" value="Login" />
 		</form>
 	</div>
-	<div id="chat-div" style="display:none;">
-		<form action="#" id="formi">
-			Chat: 
-			<input type="text" id="message" size="30"></input>
-			<input id="send" type="submit" value="Send"></input>
-		</form>
-		<hr>
-		<pre>
-		<div style="border: 1px black solid; height: 200px; overflow: auto;" id="messagebox"></div>
-		</pre>
+	<div id="chat-div">
+			<form id="chat">
+				<input type="text" id="message" placeholder="Type a message..." autocomplete="off" />
+				<input id="send" type="submit" value="Send" />
+			</form>
+		<pre><div id="messagebox"></div></pre>
 	</div>
 </body>
 </html>
