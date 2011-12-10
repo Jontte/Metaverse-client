@@ -1,0 +1,89 @@
+@font-face {
+font-family:Pokemon;
+src:url(../images/pokemon.ttf);
+}
+html, body {
+background-color:#000;
+color:#fff;
+font-family:Helvetica, Arial, Verdana, sans-serif;
+font-size:13px;
+margin:0;
+padding:0;
+width:800px;
+height:600px;
+overflow:hidden
+}
+div#login {
+width:275px;
+margin-left:auto;
+margin-right:auto;
+padding-top:100px;
+text-align:center
+}
+div#version {
+text-align:right;
+font-size:10px;
+color:gray;
+}
+input[type=text], input[type=password] {
+border-radius:13px;
+-webkit-border-radius:13px;
+-ms-border-radius:13px;
+-moz-border-radius:13px;
+-o-border-radius:13px;
+border:0;
+height:15px;
+width:100px;
+outline:none;
+text-align:center
+}
+div#toolbar {
+display:none;
+margin:0;
+padding:0;
+background-color:#092B6E;
+width:800px;
+height:28px;
+}
+input#chat {
+width:368px;
+height:28px;
+color:#fff;
+background:url(../images/chatbar.png) no-repeat;
+border:0;
+font-family:Pokemon;
+border-radius:0;
+text-align:left;
+padding-left:5px;
+padding-right:5px;
+position:relative;
+top:-10px
+}
+div#messagebox {
+border:5px #fff solid;
+height:200px;
+width:400px;
+overflow-y:scroll;
+font-family:Pokemon;
+text-align:left;
+white-space:pre;
+display:none;
+border-radius:5px;
+padding:10px;
+position:absolute;
+z-index:10;
+top:50px;
+left:200px;
+background:#000;
+}
+div#viewport {
+line-height:0;
+}
+div#history_button {
+background:url(../images/chat_history.png) no-repeat;
+width:37px;
+height:28px;
+padding:0;
+margin:0;
+display:inline-block;
+}

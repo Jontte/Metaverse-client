@@ -23,9 +23,9 @@ $(function () {
 		World.callbacks.login_successful = function () {
 			// Save username as cookie
 			setCookie('login_username', $('#username').val());
-			$('#login-div').hide();
-			$('#canvas').show();
-			$('#chat-div').show();
+			$('#login').hide();
+			$('#canvas, #toolbar').show();
+			$('#messagebox').draggable();
 		};
 		World.callbacks.login_failed = function () {
 			alert('Invalid username or password, please try again');
@@ -40,14 +40,16 @@ $(function () {
 	});
 
 	// Setup chat 
-	$('#chat').submit(function () {
-		try {
-			World.sendChat($('#message').val());
-			$('#message').val('');
-		} catch (e) {
-			World.log(e);
-		} finally {
-			return false;
+	$('#chat').keypress(function (e) {
+		if (e.keyCode == 13){
+			try {
+				World.sendChat($('#chat').val());
+				$('#chat').val('');
+			} catch (e) {
+				World.log(e);
+			} finally {
+				return false;
+			}
 		}
 	});
 });

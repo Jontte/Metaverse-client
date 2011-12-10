@@ -91,7 +91,7 @@ World = {
 		w.canvas_ctx = World.canvas.getContext('2d');
 
 		w.screen_width = 800;
-		w.screen_height = 580;
+		w.screen_height = 572;
 
 		// Create proxymanager
 		var manager = new ProxyManager()

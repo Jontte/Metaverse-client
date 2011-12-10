@@ -5,8 +5,9 @@ $version = "v0.0.1";
 <html>
 <head>
 	<title>MetaVerse</title>
-	<link rel="stylesheet" type="text/css" href="styles.css?<? echo time(); ?>" />
+	<link rel="stylesheet" type="text/css" href="css/game.css?<? echo time(); ?>" />
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.16.min.js"></script>
 	<script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
 	<script type="text/javascript" src="js/speech_bubble.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/jsbih.js?<? echo time(); ?>"></script>
@@ -20,11 +21,7 @@ $version = "v0.0.1";
 	<script type="text/javascript" src="js/main.js?<? echo time(); ?>"></script>
 </head>
 <body>
-	<div id="viewport">
-		<canvas id="canvas" width="800" height="580" style="display:none;">
-		Your browser does not support the HTML5 canvas element</canvas>
-	</div>
-	<div id="login-div">
+	<div id="login">
 		<img src="images/logo.png" alt="MetaVerse" /><br />
 		<div id="version"><? echo $version; ?></div><br />
 		<form action="#" id="login-form">
@@ -33,12 +30,14 @@ $version = "v0.0.1";
 			<input type="submit" value="Login" />
 		</form>
 	</div>
-	<div id="chat-div">
-			<form id="chat">
-				<input type="text" id="message" placeholder="Type a message..." autocomplete="off" />
-				<input id="send" type="submit" value="Send" />
-			</form>
-		<pre><div id="messagebox"></div></pre>
+	<div id="viewport">
+		<canvas id="canvas" width="800" height="572" style="display:none;">
+		Your browser does not support the HTML5 canvas element</canvas>
+		<div id="toolbar">
+			<div id="history_button" onclick="$('#messagebox').toggle()"></div>
+			<input type="text" id="chat" placeholder="Type a message..." autocomplete="off" />
+		</div>
 	</div>
+	<div id="messagebox"></div>
 </body>
 </html>
