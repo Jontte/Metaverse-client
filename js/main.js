@@ -25,7 +25,7 @@ $(function () {
 			setCookie('login_username', $('#username').val());
 			$('#login').hide();
 			$('#canvas, #toolbar').show();
-			$('#messagebox').draggable();
+			$('#messagebox').draggable({ containment: "body" });
 		};
 		World.callbacks.login_failed = function () {
 			alert('Invalid username or password, please try again');
