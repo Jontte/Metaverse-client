@@ -59,7 +59,10 @@ World = {
 			if (World.callbacks.login_failed) World.callbacks.login_failed();
 		}
 	},
-	
+	logout: function () {
+		World.socket.close();
+		location.reload(true);
+	},
 	register: function (opts) {
 		// make sure the user has entered the same password twice
 		if (opts.password != opts.confirm) return;

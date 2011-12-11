@@ -188,7 +188,7 @@ SpeechBubble.prototype._render = function () {
 		this._context.shadowColor = '#bbb';
 	}
 
-	this._context.fillStyle = 'cyan';
+	this._context.fillStyle = '#fff';
 	this._context.fill();
 
 	if (SpeechBubble.drawShadows) {

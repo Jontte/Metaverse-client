@@ -12,7 +12,15 @@ padding:0;
 width:800px;
 height:600px;
 overflow:hidden;
-position:fixed
+position:fixed;
+}
+* {
+cursor:default;
+user-select:none;
+-webkit-user-select:none;
+-moz-user-select:none;
+-o-user-select:none;
+-ms-user-select:none;
 }
 input[type=text], input[type=password], input[type=email] {
 border-radius:13px;
@@ -24,7 +32,12 @@ border:0;
 height:15px;
 width:100px;
 outline:none;
-text-align:center
+text-align:center;
+user-select:auto;
+-webkit-user-select:auto;
+-moz-user-select:auto;
+-o-user-select:auto;
+-ms-user-select:auto;
 }
 div#initial {
 width:275px;
@@ -65,9 +78,10 @@ div#toolbar {
 display:none;
 margin:0;
 padding:0;
-background-color:#092B6E;
+background-color:#001862;
 width:800px;
 height:28px;
+text-align:center
 }
 input#chat {
 width:368px;
@@ -111,4 +125,20 @@ height:28px;
 padding:0;
 margin:0;
 display:inline-block;
+cursor:pointer
+}
+div#history_button:active {
+background:url(../images/chat_history_active.png) no-repeat;
+}
+div#logout_button {
+background:url(../images/logout.png) no-repeat;
+width:22px;
+height:28px;
+padding:0;
+margin:0;
+display:inline-block;
+cursor:pointer
+}
+div#logout_button:active {
+background:url(../images/logout.png) no-repeat;
 }

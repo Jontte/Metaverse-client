@@ -38,7 +38,7 @@ $version = "v0.0.1";
 		<div id="login">
 			<form action="#" id="login-form">
 				<input type="text" id="username" placeholder="Username" /><br /><br />
-				<input type="password" id="password" placeholder="Password" value="kissa" /><br /><br />
+				<input type="password" id="password" placeholder="Password" /><br /><br />
 				<input type="submit" value="Login" /><br /><br />
 				<a href="#" onclick="toggleForms()">Register</a>
 			</form>
@@ -73,6 +73,7 @@ $version = "v0.0.1";
 		<div id="toolbar">
 			<div id="history_button" onclick="showHistory()"></div>
 			<input type="text" id="chat" placeholder="Type a message..." autocomplete="off" />
+			<div id="logout_button" onclick="World.logout()"></div>
 		</div>
 	</div>
 	<div id="messagebox"></div>

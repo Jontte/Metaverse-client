@@ -23,6 +23,10 @@ $(function () {
 		// Try logging in!
 		var username = $('#username').val();
 		var password = $('#password').val();
+		if ((username == "") || (password == "")){
+			$("#initial_message").html("Please fill in all fields.");
+			return false;
+		}
 
 		World.callbacks.login_successful = function () {
 			// Save username as cookie
