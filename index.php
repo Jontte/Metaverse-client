@@ -76,6 +76,9 @@ $version = "v0.0.1";
 			<div id="logout_button" onclick="World.logout()"></div>
 		</div>
 	</div>
-	<div id="messagebox"></div>
+	<div id="chat_history">
+	<div id="history_handle">Chat History</div>
+	<div id="chat_lines"></div>
+	</div>
 </body>
 </html>

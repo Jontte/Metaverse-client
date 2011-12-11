@@ -258,7 +258,7 @@ World = {
 		}
 	},
 	log: function (msg) {
-		var e = document.getElementById('messagebox');
+		var e = document.getElementById('chat_lines');
 
 		var now = new Date();
 		var h = now.getHours();

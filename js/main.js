@@ -1,5 +1,5 @@
 function showHistory(){
-	$('#messagebox').toggle().css({top:"50px",left:"200px"});
+	$('#chat_history').toggle().css({top:"50px",left:"200px"});
 }
 $(function () {
 
@@ -33,7 +33,8 @@ $(function () {
 			setCookie('login_username', $('#username').val());
 			$('#initial').hide();
 			$('#canvas, #toolbar').show();
-			$('#messagebox').draggable({
+			$('#chat_history').draggable({
+				handle: "#history_handle",
 				stop: function(){
 					if ($(this).offset().left > 750){
 						$(this).css("left","750px");
@@ -44,8 +45,8 @@ $(function () {
 					if ($(this).offset().left < -350){
 						$(this).css("left","-350px");
 					}
-					if ($(this).offset().top < -150){
-						$(this).css("top","-150px");
+					if ($(this).offset().top < 0){
+						$(this).css("top","0px");
 					}
 				}
 			});
