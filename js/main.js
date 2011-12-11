@@ -28,7 +28,22 @@ $(function () {
 			setCookie('login_username', $('#username').val());
 			$('#login').hide();
 			$('#canvas, #toolbar').show();
-			$('#messagebox').draggable();
+			$('#messagebox').draggable({
+				stop: function(){
+					if ($(this).offset().left > 750){
+						$(this).css("left","750px");
+					}
+					if ($(this).offset().top > 550){
+						$(this).css("top","550px");
+					}
+					if ($(this).offset().left < -350){
+						$(this).css("left","-350px");
+					}
+					if ($(this).offset().top < -150){
+						$(this).css("top","-150px");
+					}
+				}
+			});
 		};
 		World.callbacks.login_failed = function () {
 			alert('Invalid username or password, please try again');
