@@ -46,6 +46,10 @@ margin-right:auto;
 padding-top:100px;
 text-align:center
 }
+img#logo {
+width:271px;
+height:56px
+}
 div#register {
 display:none;
 }
@@ -137,17 +141,17 @@ cursor:move
 div#viewport {
 line-height:0;
 }
-div#history_button {
-background:url(../images/chat_history.png) no-repeat;
-width:37px;
+div#messages_button {
+background:url(../images/messages_button.png) no-repeat;
+width:31px;
 height:28px;
 padding:0;
 margin:0;
 display:inline-block;
 cursor:pointer
 }
-div#history_button:active {
-background:url(../images/chat_history_active.png) no-repeat;
+div#messages_button:active {
+background:url(../images/messages_button_active.png) no-repeat;
 }
 div#logout_button {
 background:url(../images/logout.png) no-repeat;
