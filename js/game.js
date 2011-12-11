@@ -60,8 +60,18 @@ World = {
 		}
 	},
 	logout: function () {
-		World.socket.close();
-		location.reload(true);
+		World.alertBox({
+			title: "Are you sure?",
+			message: "Do you really want to logout of MetaVerse?",
+			cancel: "Stay",
+			cancel_color: "#23D422",
+			accept: "Logout",
+			accept_color: "red",
+			callback: function(){
+				World.socket.close();
+				location.reload(true);
+			},
+		});
 	},
 	register: function (opts) {
 		// make sure the user has entered the same password twice
@@ -105,7 +115,28 @@ World = {
 			if (World.callbacks.registration_failed) World.callbacks.registration_failed();
 		}
 	},
-
+	alertBox: function (opts){
+		var title = opts.title;
+		var message = opts.message;
+		var cancel = opts.cancel;
+		var cancel_color = opts.cancel_color;
+		var accept = opts.accept;
+		var accept_color = opts.accept_color;
+		var callback = opts.callback;
+		var randomid = Math.floor(Math.random()*6);
+		$("<div class='alert' id='" + randomid + "'><span class='title'>" + title + "</span>" +
+		  "<span class='message'>" + message + "</span>" +
+		  "<input type='button' class='cancel' value='" + cancel + "' onclick='$(\"div.alert#" +
+		  randomid + "\").remove()' /></div>").appendTo("#viewport");
+		$("<input type='button' class='accept' value='" + accept + "' />").click(function(){
+			$("div.alert#" + randomid).remove();
+			callback();
+		}).appendTo("div.alert#" + randomid);
+		if (cancel_color != undefined)
+			$("div.alert#" + randomid + " > input[type=button].cancel").css("background", cancel_color);
+		if (accept_color != undefined)
+			$("div.alert#" + randomid + " > input[type=button].accept").css("background", accept_color);
+	},
 	init: function () {
 		// Schedule image retrieval
 		World.queueImage('plethora.png');

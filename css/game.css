@@ -165,3 +165,51 @@ cursor:pointer
 div#logout_button:active {
 background:url(../images/logout_active.png) no-repeat;
 }
+div.alert {
+background-color:#0B1E55;
+border:2px solid #FFF;
+border-radius:7px;
+color:#FFF;
+position:absolute;
+z-index:10;
+left:300px;
+top:150px;
+padding-bottom:10px;
+padding-top:10px;
+text-align:center;
+width:200px;
+height:100px
+}
+div.alert > span.title {
+display: block;
+width: 190px;
+background-color: #0199CA;
+height: 15px;
+border-radius: 3px;
+margin-left: auto;
+margin-right: auto;
+position: relative;
+top: -5px;
+line-height: 14px;
+font-weight: bold
+}
+div.alert > span.message {
+line-height:15px;
+display:block
+}
+div.alert > input[type=button] {
+position: absolute;
+bottom: 5px;
+border: 2px solid white;
+border-radius: 4px;
+color: white;
+cursor:pointer
+}
+div.alert > input.cancel {
+background:red;
+left:5px;
+}
+div.alert > input.accept {
+background:#23D422;
+right:5px
+}
