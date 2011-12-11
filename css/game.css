@@ -14,19 +14,7 @@ height:600px;
 overflow:hidden;
 position:fixed
 }
-div#login {
-width:275px;
-margin-left:auto;
-margin-right:auto;
-padding-top:100px;
-text-align:center
-}
-div#version {
-text-align:right;
-font-size:10px;
-color:gray;
-}
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email] {
 border-radius:13px;
 -webkit-border-radius:13px;
 -ms-border-radius:13px;
@@ -37,6 +25,41 @@ height:15px;
 width:100px;
 outline:none;
 text-align:center
+}
+div#initial {
+width:275px;
+margin-left:auto;
+margin-right:auto;
+padding-top:100px;
+text-align:center
+}
+div#register {
+display:none;
+}
+div#register table {
+margin-left:auto;
+margin-right:auto
+}
+div#register td {
+text-align:left;
+padding-bottom:5px
+}
+div#register input[type=text], div#register input[type=password], div#register input[type=email] {
+width:150px;
+text-align:left;
+padding-left:3px;
+padding-right:3px
+}
+a {
+color:gray
+}
+a:active {
+color:#fff
+}
+div#version {
+text-align:right;
+font-size:10px;
+color:gray;
 }
 div#toolbar {
 display:none;
@@ -76,6 +99,7 @@ z-index:10;
 top:50px;
 left:200px;
 background:#000;
+opacity:.8
 }
 div#viewport {
 line-height:0;

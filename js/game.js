@@ -5,7 +5,9 @@ World = {
 
 	callbacks: {
 		login_successful: null,
-		login_failed: null
+		login_failed: null,
+		register_successful: null,
+		register_failed: null
 	},
 	preload: {
 		images: {},
@@ -18,7 +20,7 @@ World = {
 		// pass opts.username, opts.password here.
 		var socktype = window.MozWebSocket || window.WebSocket;
 		if (!socktype) {
-			alert('You browser does not support WebSockets');
+			$("#initial_message").html('You browser does not support WebSockets');
 			return;
 		}
 		var socket = new socktype(Config.socket_service);
@@ -55,6 +57,49 @@ World = {
 		socket.onclose = function () {
 			// Premature DC?
 			if (World.callbacks.login_failed) World.callbacks.login_failed();
+		}
+	},
+	
+	register: function (opts) {
+		// make sure the user has entered the same password twice
+		if (opts.password != opts.confirm) return;
+		var socktype = window.MozWebSocket || window.WebSocket;
+		if (!socktype) {
+			$("#initial_message").html('You browser does not support WebSockets');
+			return;
+		}
+		var socket = new socktype(Config.socket_service);
+		World.socket = socket;
+		socket.onmessage = function (evt) {
+			// Server sends challenge, we reply with sha1(challenge + pw + challenge)
+			var json = JSON.parse(evt.data);
+			if ('challenge' in json) {
+				var challenge = json.challenge;
+				if (challenge.length < 10) {
+					if (World.callbacks.registration_failed) World.callbacks.registration_failed();
+					return;
+				}
+				socket.send(JSON.stringify({
+					username: opts.username,
+					response: SHA1(challenge + opts.password + challenge),
+					email: SHA1(challenge + opts.email + challenge)
+				}));
+			} else if ('success' in json) {
+				var success = json.success;
+				if (success) {
+					socket.onmessage = function (evt) {
+						World.input_queue.push(evt);
+					};
+					if (World.callbacks.registration_successful) World.callbacks.registration_successful();
+				} else if (World.callbacks.registration_failed) World.callbacks.registration_failed();
+			}
+		};
+		socket.onopen = function () {
+			// 
+		};
+		socket.onclose = function () {
+			// Premature DC?
+			if (World.callbacks.registration_failed) World.callbacks.registration_failed();
 		}
 	},
 
@@ -128,8 +173,12 @@ World = {
 		ctx.fillStyle = 'rgb(127,160,255)';
 		ctx.fillRect(0, 0, w.screen_width, w.screen_height);
 
+		var txt = 'MetaVerse InDev';
+		ctx.font = "20px Pokemon";
+		ctx.strokeText(txt, 5, 15);
 		var txt = 'Cursor at (' + Key.mouse_x + ', ' + Key.mouse_y + ')';
-		ctx.strokeText(txt, 0, 20);
+		ctx.font = "15px Pokemon";
+		ctx.strokeText(txt, 5, 30);
 
 		// Update curosr
 		w.updateCursor();
@@ -234,7 +283,8 @@ World = {
 		// not called.
 	},
 	onDisconnect: function () {
-		World.log('*** Connection lost ***');
+		alert("Connection was lost");
+		location.reload(true);
 	},
 	onMessage: function (evt) {
 		var d = evt.data;

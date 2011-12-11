@@ -49,7 +49,7 @@ var SpeechBubble = function (name) {
 		}, 0);
 	};
 
-SpeechBubble.drawShadows = true;
+SpeechBubble.drawShadows = false;
 
 SpeechBubble.instances = [];
 SpeechBubble.lineID = 0;
@@ -129,7 +129,7 @@ SpeechBubble.prototype.push = function (line) {
 			}
 		}
 		self._linesChanged();
-	}, 2000);
+	}, 5000);
 
 	this._linesChanged();
 };
@@ -148,7 +148,7 @@ SpeechBubble.prototype._render = function () {
 
 	this._size.w = 0;
 	for (var i = 0; i < this._lines.length; ++i) {
-		var width = this._context.measureText(this._lines[i]).width;
+		var width = this._context.measureText(this._lines[i].text).width;
 		if (width > this._size.w) this._size.w = width;
 
 		if (this._lines[i].isName) this._context.font = this._fontSize + 'px sans-serif';

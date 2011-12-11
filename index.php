@@ -19,16 +19,53 @@ $version = "v0.0.1";
 	<script type="text/javascript" src="js/util.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/game.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/main.js?<? echo time(); ?>"></script>
+	<script type="text/javascript">
+		function toggleForms(){
+			$("#login, #register").toggle();
+			if ($("#register").is(":visible")){
+				$("#initial_message").html("Registration does not actually work yet.");
+			} else {
+				$("#initial_message").html("");
+			}
+		}
+	</script>
 </head>
 <body>
-	<div id="login">
+	<div id="initial">
 		<img src="images/logo.png" alt="MetaVerse" /><br />
 		<div id="version"><? echo $version; ?></div><br />
-		<form action="#" id="login-form">
-			<input type="text" id="username" placeholder="Username" /><br /><br />
-			<input type="password" id="password" placeholder="Password" value="kissa" /><br /><br />
-			<input type="submit" value="Login" />
-		</form>
+		<span id="initial_message"></span><br /><br />
+		<div id="login">
+			<form action="#" id="login-form">
+				<input type="text" id="username" placeholder="Username" /><br /><br />
+				<input type="password" id="password" placeholder="Password" value="kissa" /><br /><br />
+				<input type="submit" value="Login" /><br /><br />
+				<a href="#" onclick="toggleForms()">Register</a>
+			</form>
+		</div>
+		<div id="register">
+			<form action="#" id="registration-form">
+				<table>
+					<tr>
+						<td>Username:&nbsp;&nbsp;&nbsp;</td><td><input type="text" id="reg_username" /></td>
+					</tr>
+					<tr>
+						<td>Password:</td><td><input type="password" id="reg_password" /></td>
+					</tr>
+					<tr>
+						<td>Confirm:</td><td><input type="password" id="reg_confirm" /></td>
+					</tr>
+					<tr>
+						<td>Email:</td><td><input type="email" id="reg_email" /></td>
+					</tr>
+					<tr>
+						<td>Agree to terms:</td><td><input type="checkbox" id="reg_agree" /></td>
+					</tr>
+				</table><br />
+				<input type="submit" value="Submit" /><br /><br />
+				<a href="#" onclick="toggleForms()">Back to Login</a>
+			</form>
+		</div>
 	</div>
 	<div id="viewport">
 		<canvas id="canvas" width="800" height="572" style="display:none;">
