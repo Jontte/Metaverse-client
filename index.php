@@ -34,7 +34,7 @@ $version = "v0.0.1";
 		<canvas id="canvas" width="800" height="572" style="display:none;">
 		Your browser does not support the HTML5 canvas element</canvas>
 		<div id="toolbar">
-			<div id="history_button" onclick="$('#messagebox').toggle()"></div>
+			<div id="history_button" onclick="showHistory()"></div>
 			<input type="text" id="chat" placeholder="Type a message..." autocomplete="off" />
 		</div>
 	</div>

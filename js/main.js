@@ -1,3 +1,6 @@
+function showHistory(){
+	$('#messagebox').toggle().css({top:"50px",left:"200px"});
+}
 $(function () {
 
 	// Make sure the browser supports websockets...
@@ -25,7 +28,7 @@ $(function () {
 			setCookie('login_username', $('#username').val());
 			$('#login').hide();
 			$('#canvas, #toolbar').show();
-			$('#messagebox').draggable({ containment: "body" });
+			$('#messagebox').draggable();
 		};
 		World.callbacks.login_failed = function () {
 			alert('Invalid username or password, please try again');
