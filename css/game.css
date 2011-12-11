@@ -140,5 +140,5 @@ display:inline-block;
 cursor:pointer
 }
 div#logout_button:active {
-background:url(../images/logout.png) no-repeat;
+background:url(../images/logout_active.png) no-repeat;
 }
