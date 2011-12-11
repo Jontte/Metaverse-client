@@ -50,6 +50,9 @@ $(function () {
 				}
 			});
 		};
+		$(document).keypress(function(){
+			$("#chat").focus();
+		});
 		World.callbacks.login_failed = function () {
 			$("#initial_message").html('There was an error logging in, check your username and password.');
 			$('#password').val('');
