@@ -97,7 +97,16 @@ $(function () {
 	$('#chat').keypress(function (e) {
 		if (e.keyCode == 13){
 			try {
-				World.sendChat($('#chat').val());
+				var string = $("#chat").val();
+				if (string.substring(0,4) == "/pm "){
+					string = string.replace("/pm ","");
+					var messagestr = string.split(" ");
+					var user = messagestr[0];
+					var message = string.replace(user + " ", "");
+					World.sendPM(message, user);
+				} else {
+					World.sendChat($('#chat').val());
+				}
 				$('#chat').val('');
 			} catch (e) {
 				World.log(e);

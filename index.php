@@ -1,5 +1,5 @@
 <?
-$version = "v0.0.1";
+$version = "In Development";
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@ $version = "v0.0.1";
 </head>
 <body>
 	<div id="initial">
-		<img src="images/logo.png" alt="MetaVerse" /><br />
+		<img src="images/logo.png" alt="MetaVerse" id="logo" /><br />
 		<div id="version"><? echo $version; ?></div><br />
 		<span id="initial_message"></span><br /><br />
 		<div id="login">
@@ -71,7 +71,7 @@ $version = "v0.0.1";
 		<canvas id="canvas" width="800" height="572" style="display:none;">
 		Your browser does not support the HTML5 canvas element</canvas>
 		<div id="toolbar">
-			<div id="history_button" onclick="showHistory()"></div>
+			<div id="messages_button" onclick="showHistory()"></div>
 			<input type="text" id="chat" placeholder="Type a message..." autocomplete="off" />
 			<div id="logout_button" onclick="World.logout()"></div>
 		</div>

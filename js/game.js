@@ -282,6 +282,12 @@ World = {
 			msg: message
 		})
 	},
+	sendPM: function (message, to){
+		World.send({
+			msg: message,
+			username: to
+		})	
+	},
 	onConnect: function () {
 		// not called.
 	},
@@ -325,6 +331,13 @@ World = {
 		} else if ('gmesg' in json) {
 			// Global-message
 			World.log('<Server> ' + json.gmesg);
+		} else if ('pmesg' in json) {
+			// private message
+			World.log('PM <' + json.username + '> ' + json.pmesg);
+			var audioElement = document.createElement('audio');
+			audioElement.setAttribute('src', 'audio/mail.mp3');
+			audioElement.play();
+			$("#messages_button").css("background","url(images/messages_button_active.png) !important").delay(5000).attr("style","");
 		}
 	}
 
