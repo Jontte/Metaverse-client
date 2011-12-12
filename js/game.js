@@ -115,6 +115,14 @@ World = {
 			if (World.callbacks.registration_failed) World.callbacks.registration_failed();
 		}
 	},
+	showMessageWindow: function (){
+		$('#messages').toggle().css({top:"50px",left:"200px"});
+	},
+	switchMessagesTab: function (tab){
+		$(".msg_control_selected").removeClass("msg_control_selected");
+		$("#" + tab + "tab").addClass("msg_control_selected");
+		$("#all_lines").removeClass("public pm server all").addClass(tab);
+	},
 	alertBox: function (opts){
 		var title = opts.title;
 		var message = opts.message;
@@ -288,18 +296,15 @@ World = {
 			}
 		}
 	},
-	log: function (msg) {
-		var e = document.getElementById('chat_lines');
-
+	log: function (msg, type) {
+		var e = document.getElementById('all_lines');
 		var now = new Date();
 		var h = now.getHours();
 		var m = now.getMinutes();
-		var s = now.getSeconds();
 		if (m < 10) m = '0' + m;
-		if (s < 10) s = '0' + s;
-		var datestring = h + ':' + m + ':' + s;
+		var datestring = h + ':' + m;
 
-		$(e).append(document.createTextNode(datestring + ' ' + msg + '\n'));
+		$(e).append("<span class='" + type + "'>[" + datestring + '] ' + msg + "</span>");
 		if (e.childNodes.length > 100) {
 			$(e.childNodes[0]).remove();
 		}
@@ -361,14 +366,14 @@ World = {
 			}
 		} else if ('gmesg' in json) {
 			// Global-message
-			World.log('<Server> ' + json.gmesg);
+			World.log('<strong>Server:</strong> ' + json.gmesg, "server");
 		} else if ('pmesg' in json) {
 			// private message
-			World.log('PM <' + json.username + '> ' + json.pmesg);
+			World.log('<strong>' + json.username + ':</strong> ' + json.pmesg, "pm");
 			var audioElement = document.createElement('audio');
 			audioElement.setAttribute('src', 'audio/mail.mp3');
 			audioElement.play();
-			$("#messages_button").css("background","url(images/messages_button_active.png) !important").delay(5000).attr("style","");
+			$("#messages_button").addClass("active").delay(5000).removeClass("active");
 		}
 	}
 

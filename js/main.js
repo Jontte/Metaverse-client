@@ -1,6 +1,3 @@
-function showHistory(){
-	$('#chat_history').toggle().css({top:"50px",left:"200px"});
-}
 $(function () {
 
 	// Make sure the browser supports websockets...
@@ -27,14 +24,13 @@ $(function () {
 			$("#initial_message").html("Please fill in all fields.");
 			return false;
 		}
-
 		World.callbacks.login_successful = function () {
 			// Save username as cookie
 			setCookie('login_username', $('#username').val());
 			$('#initial').hide();
 			$('#canvas, #toolbar').show();
-			$('#chat_history').draggable({
-				handle: "#history_handle",
+			$('#messages').draggable({
+				handle: "#messages_handle",
 				stop: function(){
 					if ($(this).offset().left > 750){
 						$(this).css("left","750px");
@@ -50,6 +46,9 @@ $(function () {
 					}
 				}
 			});
+		};
+		window.onbeforeunload = function() {
+			return "Do you really want to leave MetaVerse?";
 		};
 		$(document).keypress(function(){
 			$("#chat").focus();

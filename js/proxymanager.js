@@ -313,7 +313,7 @@ ProxyManager.prototype.speechBubble = function (id, message) {
 		var p = this.proxies_id[id];
 		// If the given object also has a label, use the log
 		if ('label' in p.ext) {
-			World.log('<' + p.ext['label'] + '> ' + message);
+			World.log('<strong>' + p.ext['label'] + ':</strong> ' + message, "public");
 		}
 
 		if (p.bubble == null) p.bubble = new SpeechBubble(('label' in p.ext) ? p.ext.label : null);

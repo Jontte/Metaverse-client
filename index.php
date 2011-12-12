@@ -71,14 +71,31 @@ $version = "In Development";
 		<canvas id="canvas" width="800" height="572" style="display:none;">
 		Your browser does not support the HTML5 canvas element</canvas>
 		<div id="toolbar">
-			<div id="messages_button" onclick="showHistory()"></div>
+			<div id="messages_button" onclick="World.showMessageWindow()"></div>
 			<input type="text" id="chat" placeholder="Type a message..." autocomplete="off" />
 			<div id="logout_button" onclick="World.logout()"></div>
 		</div>
 	</div>
-	<div id="chat_history">
-	<div id="history_handle">Chat History</div>
-	<div id="chat_lines"></div>
-	</div>
+	    <div id="messages">
+			<img src="images/mailbanner.png" id="mail_handle" alt="Mail" onclick="$('#messages_contain').hide()"/>
+			<div id="messages_control">
+				<span class="msg_control_selected" id="alltab" onclick="World.switchMessagesTab('all')">All</span>
+				<span id="publictab" onclick="World.switchMessagesTab('public')">Public</span>
+				<span id="servertab" onclick="World.switchMessagesTab('server')">Server</span>
+        		<span id="pmtab" onclick="World.switchMessagesTab('pm')">Private</span>
+        	</div>
+        	<div id="all_messages">
+        		<div class="all" id="all_lines"></div>
+        	</div>
+        	<div id="compose_messages">
+        		<strong>To:</strong> <input type="text" id="pm_to" /><br />
+        		<div id="composecontain">
+        			<textarea id="newmessage"></textarea>
+        			<span class="msgbuttons">
+       					<input type="button" onclick="World.sendPM(true)" id="send" value="Send" />
+        			</span>
+        		</div>
+        	</div>
+		</div>
 </body>
 </html>
