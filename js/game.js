@@ -1,6 +1,7 @@
 World = {
 	proxymanager: null,
 	socket: null,
+	camera: { x: 0, y: 0, target: 0 },
 	cursor: null,
 	current_user: null,
 	logging_out: false,
@@ -29,7 +30,6 @@ World = {
 		var socket = new socktype(Config.socket_service);
 		World.socket = socket;
 		socket.onmessage = function (evt) {
-			console.log("received Server message");
 			// Server sends challenge, we reply with sha1(challenge+pw+challenge)
 			var json = JSON.parse(evt.data);
 			if ('challenge' in json) {
@@ -241,20 +241,31 @@ World = {
 
 		// Draw proxies
 		ctx.save();
-		ctx.translate(w.screen_width / 2, w.screen_height / 2);
+		ctx.translate((w.screen_width / 2) - w.camera.x, (w.screen_height / 2) - w.camera.y);
 		w.proxymanager.draw(ctx);
 		ctx.restore();
 
 		// Request next frame
 		requestAnimFrame(w.processFrame, w.canvas);
 	},
+	cameraMove: function(opts){
+		var w = World;
+		var x = w.camera.x;
+		var y = w.camera.y;
+		if (opts.x != undefined){
+			x = opts.x;
+			y = opts.y;
+		}
+		w.camera.x = x;
+		w.camera.y = y;
+	},
 	updateCursor: function () {
 		// Set cursor position
 		// shoot a ray in the scene, determine where it hit
 		var w = World;
 		var d = 20;
-		var mx = Key.mouse_x - w.screen_width / 2;
-		var my = Key.mouse_y - w.screen_height / 2 - 8;
+		var mx = (Key.mouse_x - w.screen_width / 2) + w.camera.x;
+		var my = (Key.mouse_y - w.screen_height / 2 - 8) + w.camera.y;
 		var baseline = {
 			x: ((mx / 2 + my) / 16) - 1 + d,
 			y: (((my - mx / 2)) / 16) + d,
@@ -350,7 +361,7 @@ World = {
 		// not called.
 	},
 	onDisconnect: function () {
-		console.log("Lost connection to server");
+		World.logging_out = true;
 		location.reload(true);
 	},
 	onMessage: function (evt) {
@@ -411,6 +422,10 @@ World = {
 					document.title = "MetaVerse";
 				});
 			}
+		} else if ('camera' in json){
+			World.cameraMove(json);
+			console.log("Received camera packet");
+			console.log(json);
 		}
 	}
 }
