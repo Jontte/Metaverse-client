@@ -2,6 +2,7 @@ World = {
 	proxymanager: null,
 	socket: null,
 	cursor: null,
+	current_user: null,
 
 	callbacks: {
 		login_successful: null,
@@ -67,7 +68,7 @@ World = {
 			cancel_color: "#23D422",
 			accept: "Logout",
 			accept_color: "red",
-			callback: function(){
+			callback: function () {
 				World.socket.close();
 				location.reload(true);
 			},
@@ -115,15 +116,18 @@ World = {
 			if (World.callbacks.registration_failed) World.callbacks.registration_failed();
 		}
 	},
-	showMessageWindow: function (){
-		$('#messages').toggle().css({top:"50px",left:"200px"});
+	showMessageWindow: function () {
+		$('#messages').toggle().css({
+			top: "50px",
+			left: "200px"
+		});
 	},
-	switchMessagesTab: function (tab){
+	switchMessagesTab: function (tab) {
 		$(".msg_control_selected").removeClass("msg_control_selected");
 		$("#" + tab + "tab").addClass("msg_control_selected");
 		$("#all_lines").removeClass("public pm server all").addClass(tab);
 	},
-	alertBox: function (opts){
+	alertBox: function (opts) {
 		var title = opts.title;
 		var message = opts.message;
 		var cancel = opts.cancel;
@@ -131,19 +135,14 @@ World = {
 		var accept = opts.accept;
 		var accept_color = opts.accept_color;
 		var callback = opts.callback;
-		var randomid = Math.floor(Math.random()*6);
-		$("<div class='alert' id='" + randomid + "'><span class='title'>" + title + "</span>" +
-		  "<span class='message'>" + message + "</span>" +
-		  "<input type='button' class='cancel' value='" + cancel + "' onclick='$(\"div.alert#" +
-		  randomid + "\").remove()' /></div>").appendTo("#viewport");
-		$("<input type='button' class='accept' value='" + accept + "' />").click(function(){
+		var randomid = Math.floor(Math.random() * 6);
+		$("<div class='alert' id='" + randomid + "'><span class='title'>" + title + "</span>" + "<span class='message'>" + message + "</span>" + "<input type='button' class='cancel' value='" + cancel + "' onclick='$(\"div.alert#" + randomid + "\").remove()' /></div>").appendTo("#viewport");
+		if (accept != undefined) $("<input type='button' class='accept' value='" + accept + "' />").click(function () {
 			$("div.alert#" + randomid).remove();
 			callback();
 		}).appendTo("div.alert#" + randomid);
-		if (cancel_color != undefined)
-			$("div.alert#" + randomid + " > input[type=button].cancel").css("background", cancel_color);
-		if (accept_color != undefined)
-			$("div.alert#" + randomid + " > input[type=button].accept").css("background", accept_color);
+		if (cancel_color != undefined) $("div.alert#" + randomid + " > input[type=button].cancel").css("background", cancel_color);
+		if (accept_color != undefined) $("div.alert#" + randomid + " > input[type=button].accept").css("background", accept_color);
 	},
 	init: function () {
 		// Schedule image retrieval
@@ -288,11 +287,22 @@ World = {
 				w.cursor.hidden = false;
 				w.cursor.setPos(hitpos.x, hitpos.y, hitpos.z);
 				if (Key.get(MOUSE_LEFT) && Key.changed(MOUSE_LEFT)) {
-					// send mouseclick in world coordinates
+					// send left mouseclick in world coordinates
 					w.send({
-						mouse: [w.cursor.x, w.cursor.y, w.cursor.z]
+						mouse: [0, w.cursor.x, w.cursor.y, w.cursor.z]
+					});
+				} else if (Key.get(MOUSE_MIDDLE) && Key.changed(MOUSE_MIDDLE)) {
+					// send middle mouseclick in world coordinates
+					w.send({
+						mouse: [1, w.cursor.x, w.cursor.y, w.cursor.z]
+					});
+				} else if (Key.get(MOUSE_RIGHT) && Key.changed(MOUSE_RIGHT)) {
+					// send right mouseclick in world coordinates
+					w.send({
+						mouse: [2, w.cursor.x, w.cursor.y, w.cursor.z]
 					});
 				}
+
 			}
 		}
 	},
@@ -318,11 +328,17 @@ World = {
 			msg: message
 		})
 	},
-	sendPM: function (message, to){
+	sendPM: function (message, to) {
+		var now = new Date();
+		var h = now.getHours();
+		var m = now.getMinutes();
+		if (m < 10) m = '0' + m;
+		var datestring = h + ':' + m;
 		World.send({
 			msg: message,
 			username: to
-		})	
+		});
+		$("#all_lines").append("<span class='pm'>[" + datestring + "] <strong>" + World.current_user + ":</strong> " + message + "</span>");
 	},
 	onConnect: function () {
 		// not called.
@@ -373,8 +389,22 @@ World = {
 			var audioElement = document.createElement('audio');
 			audioElement.setAttribute('src', 'audio/mail.mp3');
 			audioElement.play();
-			$("#messages_button").addClass("active").delay(5000).removeClass("active");
+			if ($("#messages").is(":hidden")) {
+				document.title = "MetaVerse - New PM";
+				$("#messages_button").addClass("active").bind("click", function () {
+					$(this).unbind();
+					$(this).removeClass("active");
+					document.title = "MetaVerse";
+				});
+			}
+			if (!$("#all_lines").hasClass("pm")) {
+				document.title = "MetaVerse - New PM";
+				$("#pmtab").addClass("unread").bind("click", function () {
+					$(this).unbind();
+					$(this).removeClass("unread");
+					document.title = "MetaVerse";
+				});
+			}
 		}
 	}
-
 }

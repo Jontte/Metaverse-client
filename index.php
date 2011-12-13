@@ -31,6 +31,11 @@ $version = "In Development";
 	</script>
 </head>
 <body>
+	<div id="loaderbox">
+	    <strong id="boxtitle">Logging In...</strong><br /><br />
+    	<div id="loaderprogress"><div id="loaderbar"></div></div><br />
+    	<span id="subtext">Please wait as the server is contacted.</span>
+	</div>
 	<div id="initial">
 		<img src="images/logo.png" alt="MetaVerse" id="logo" /><br />
 		<div id="version"><? echo $version; ?></div><br />
@@ -77,7 +82,7 @@ $version = "In Development";
 		</div>
 	</div>
 	    <div id="messages">
-			<img src="images/mailbanner.png" id="mail_handle" alt="Mail" onclick="$('#messages_contain').hide()"/>
+			<img src="images/messages_banner.png" id="messages_handle" alt="Messenger" />
 			<div id="messages_control">
 				<span class="msg_control_selected" id="alltab" onclick="World.switchMessagesTab('all')">All</span>
 				<span id="publictab" onclick="World.switchMessagesTab('public')">Public</span>

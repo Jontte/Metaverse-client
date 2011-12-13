@@ -1,3 +1,17 @@
+function loaderBox(done, title, subtext) {
+	if (!done) {
+		$('#boxtitle').html(title);
+		$('#subtext').html(subtext);
+		$('#loaderbox').show();
+		$('.room').hide();
+		$('.map').hide();
+		$('#loaderbar').css('background-position', (Number($('#loaderbar').css('background-position').replace('px 0px', '')) + 1) + 'px 0px');
+		repeater = setTimeout('loaderBox(undefined,"' + title + '","' + subtext + '")', 10);
+	} else {
+		clearTimeout(repeater);
+		$('#loaderbox').hide();
+	}
+}
 $(function () {
 
 	// Make sure the browser supports websockets...
@@ -16,7 +30,8 @@ $(function () {
 		$('#username').focus();
 	}
 	$('#login-form').submit(function () {
-		$("#initial_message").html("Logging in...");
+		$("#login input[type=submit]").css("display","none");
+		loaderBox(undefined, "Logging in...", "Please wait as the server is contacted.")
 		// Try logging in!
 		var username = $('#username').val();
 		var password = $('#password').val();
@@ -26,9 +41,15 @@ $(function () {
 		}
 		World.callbacks.login_successful = function () {
 			// Save username as cookie
+			loaderBox(true);
 			setCookie('login_username', $('#username').val());
+			World.current_user = $("#username").val();
+			$("#login input[type=submit]").css("display","inline");
 			$('#initial').hide();
 			$('#canvas, #toolbar').show();
+			$(document).bind("contextmenu",function(e){
+				return false;
+       		});
 			$('#messages').draggable({
 				handle: "#messages_handle",
 				stop: function(){
@@ -50,11 +71,19 @@ $(function () {
 		window.onbeforeunload = function() {
 			return "Do you really want to leave MetaVerse?";
 		};
-		$(document).keypress(function(){
-			$("#chat").focus();
+		$(document).keypress(function(e){
+			if (e.keyCode != 13){
+				$("#chat").focus();
+			}
 		});
 		World.callbacks.login_failed = function () {
-			$("#initial_message").html('There was an error logging in, check your username and password.');
+			$("#login input[type=submit]").css("display","inline");
+			loaderBox(true);
+			World.alertBox({ title: "Oops!",
+				message: 'There was an error logging in, check your username and password.',
+				cancel: "OK",
+				cancel_color: "#23D422"
+			});
 			$('#password').val('');
 		};
 		World.login({

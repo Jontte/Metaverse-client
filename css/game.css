@@ -16,6 +16,11 @@ position:fixed;
 }
 * {
 cursor:default;
+user-select:none;
+-webkit-user-select:none;
+-moz-user-select:none;
+-o-user-select:none;
+-ms-user-select:none;
 }
 input[type=text], input[type=password], input[type=emessages] {
 border-radius:13px;
@@ -96,8 +101,37 @@ padding-right:5px;
 position:relative;
 top:-10px
 }
+div#loaderbox {
+background-color:#0B1E55;
+border:2px solid #FFF;
+border-radius:7px 7px 7px 7px;
+color:#FFF;
+display:none;
+padding-bottom:10px;
+padding-top:10px;
+position:absolute;
+left:221.5px;
+top:150px;
+text-align:center;
+width:357px
+}
+
+div#loaderprogress {
+border:1px solid #FFF;
+height:15px;
+margin-left:auto;
+margin-right:auto;
+text-align:left;
+width:300px
+}
+
+div#loaderbar {
+background:url(../images/bar.png) repeat fixed -42px 0 transparent;
+box-shadow:0 0 10px #000 inset;
+height:15px
+}
 /**************************************/
-#messages {
+div#messages {
 background-color:#0B1E55;
 border:2px solid #B6CBDC;
 border-radius:60px 0 10px 10px;
@@ -107,8 +141,11 @@ width:400px;
 position:absolute;
 display:none
 }
-
-#msg_contain, #compose_messages {
+div#messages_handle {
+position:relative;
+left:4px;
+}
+div#msg_contain, #compose_messages {
 background:#0B1E55;
 border:2px solid #439BD9;
 border-radius:10px 10px 10px 10px;
@@ -116,25 +153,30 @@ height:222px;
 padding:5px;
 width:365px
 }
-#all_lines {
-font-size:12px
+div#pmtab.unread {
+font-style:italic
 }
-#all_lines.all > span {
+div#all_lines {
+font-size:12px;
+overflow:auto;
+height:222px
+}
+div#all_lines > span {
 display:block
 }
-#all_lines.public > span.pm, 
-#all_lines.public > span.server {
+div#all_lines.public > span.pm, 
+div#all_lines.public > span.server {
 display:none;
 }
-#all_lines.pm > span.public, 
-#all_lines.pm > span.server {
+div#all_lines.pm > span.public, 
+div#all_lines.pm > span.server {
 display:none;
 }
-#all_lines.server > span.pm, 
-#all_lines.server > span.public {
+div#all_lines.server > span.pm, 
+div#all_lines.server > span.public {
 display:none;
 }
-#compose_messages {
+div#compose_messages {
 display:none
 }
 
@@ -147,7 +189,7 @@ top:3px;
 z-index:804
 }
 
-#all_messages, #private_messages {
+div#all_messages, #private_messages {
 background:#265792;
 border:5px solid #A5D3FF;
 border-radius:0 0 10px 10px;
@@ -162,7 +204,7 @@ width:365px;
 word-wrap:break-word
 }
 
-#messages_control {
+div#messages_control {
 background-color:#27D126;
 border:2px solid #FFF;
 border-radius:18px 18px 18px 18px;
