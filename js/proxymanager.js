@@ -78,6 +78,10 @@ ProxyManager.prototype.addProxy = function (json) {
 }
 ProxyManager.prototype.delProxy = function (id) {
 	var node = this.proxies.front();
+	if(id in this.proxies_id)
+	{
+		delete this.proxies_id[id];
+	}
 	while (node != null) {
 		var p = node.get();
 		if (p.id == id) {
@@ -131,7 +135,7 @@ ProxyManager.prototype.smooth = function () {
 			p.smooth_z = p.z;
 		} else {
 			// exponential
-			var d = 0.2;
+			var d = 0.20;
 			var dif = [p.smooth_x, p.smooth_y, p.smooth_z];
 			p.smooth_x = p.smooth_x * (1 - d) + p.x * d;
 			p.smooth_y = p.smooth_y * (1 - d) + p.y * d;
