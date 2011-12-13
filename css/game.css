@@ -176,6 +176,12 @@ div#all_lines.server > span.pm,
 div#all_lines.server > span.public {
 display:none;
 }
+.server {
+color: #F97A7A;
+}
+.pm {
+color: #84D5FE;
+}
 div#compose_messages {
 display:none
 }

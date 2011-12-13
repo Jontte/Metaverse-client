@@ -3,7 +3,8 @@ World = {
 	socket: null,
 	cursor: null,
 	current_user: null,
-
+	logging_out: false,
+	
 	callbacks: {
 		login_successful: null,
 		login_failed: null,
@@ -18,6 +19,7 @@ World = {
 	input_queue: [],
 	// received messages are stored here until the system is properly initialized.
 	login: function (opts) {
+		console.log("Login method was called");
 		// pass opts.username, opts.password here.
 		var socktype = window.MozWebSocket || window.WebSocket;
 		if (!socktype) {
@@ -27,6 +29,7 @@ World = {
 		var socket = new socktype(Config.socket_service);
 		World.socket = socket;
 		socket.onmessage = function (evt) {
+			console.log("received Server message");
 			// Server sends challenge, we reply with sha1(challenge+pw+challenge)
 			var json = JSON.parse(evt.data);
 			if ('challenge' in json) {
@@ -70,6 +73,7 @@ World = {
 			accept_color: "red",
 			callback: function () {
 				World.socket.close();
+				World.logging_out = true;
 				location.reload(true);
 			},
 		});
@@ -136,7 +140,9 @@ World = {
 		var accept_color = opts.accept_color;
 		var callback = opts.callback;
 		var randomid = Math.floor(Math.random() * 6);
-		$("<div class='alert' id='" + randomid + "'><span class='title'>" + title + "</span>" + "<span class='message'>" + message + "</span>" + "<input type='button' class='cancel' value='" + cancel + "' onclick='$(\"div.alert#" + randomid + "\").remove()' /></div>").appendTo("#viewport");
+		$("<div class='alert' id='" + randomid + "'><span class='title'>" + title + "</span>" + 
+			"<span class='message'>" + message + "</span>" + "<input type='button' class='cancel' value='" + 
+			cancel + "' onclick='$(\"div.alert#" + randomid + "\").remove()' /></div>").appendTo("#viewport");
 		if (accept != undefined) $("<input type='button' class='accept' value='" + accept + "' />").click(function () {
 			$("div.alert#" + randomid).remove();
 			callback();
@@ -216,10 +222,10 @@ World = {
 
 		var txt = 'MetaVerse InDev';
 		ctx.font = "20px Pokemon";
-		ctx.strokeText(txt, 5, 15);
+		ctx.strokeText(txt, 5, 20);
 		var txt = 'Cursor at (' + Key.mouse_x + ', ' + Key.mouse_y + ')';
 		ctx.font = "15px Pokemon";
-		ctx.strokeText(txt, 5, 30);
+		ctx.strokeText(txt, 5, 35);
 
 		// Update curosr
 		w.updateCursor();
@@ -338,13 +344,13 @@ World = {
 			msg: message,
 			username: to
 		});
-		$("#all_lines").append("<span class='pm'>[" + datestring + "] <strong>" + World.current_user + ":</strong> " + message + "</span>");
+		$("#all_lines").append("<span class='pm'>[" + datestring + "] <strong>" + World.current_user + " [to " + to + "]:</strong> " + message + "</span>");
 	},
 	onConnect: function () {
 		// not called.
 	},
 	onDisconnect: function () {
-		alert("Connection was lost");
+		console.log("Lost connection to server");
 		location.reload(true);
 	},
 	onMessage: function (evt) {
