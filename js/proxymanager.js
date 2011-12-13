@@ -88,17 +88,17 @@ ProxyManager.prototype.delProxy = function (id) {
 			if (p.template.solid) {
 				// remove solid object from the BIH
 				var t = p.template;
-				this.bih.remove({
+				var objs = this.bih.remove({
 					optimized_remove: true,
 					intervals: [{
 						a: p.x,
-						b: p.x + t.bx
+						b: t.bx
 					}, {
 						a: p.y,
-						b: p.y + t.by
+						b: t.by
 					}, {
 						a: p.z,
-						b: p.z + t.bz
+						b: t.bz
 					}],
 					object: p
 				});
