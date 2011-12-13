@@ -9,6 +9,16 @@ function ProxyManager() {
 	this.templates = {};
 }
 
+ProxyManager.prototype.getProxy = function(id) {
+	// This function will return a known proxy by id or null if it does not exist
+	// Remember that once the proxy is deleted the returned handle should not be stored any lonegr
+	if(id in this.proxies_id)
+	{
+		return this.proxies_id[id];
+	}
+	return null;
+}
+
 ProxyManager.prototype.addProxy = function (json) {
 	var id = json[0];
 
