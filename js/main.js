@@ -30,7 +30,7 @@ $(function () {
 		$('#username').focus();
 	}
 	$('#login-form').submit(function () {
-		$("#login input[type=submit]").css("display","none");
+		$("#login input[type=submit], a#reg_toggle").css("display","none");
 		loaderBox(undefined, "Logging in...", "Please wait as the server is contacted.")
 		// Try logging in!
 		var username = $('#username').val();
@@ -44,7 +44,7 @@ $(function () {
 			loaderBox(true);
 			setCookie('login_username', $('#username').val());
 			World.current_user = $("#username").val();
-			$("#login input[type=submit]").css("display","inline");
+			$("#login input[type=submit], a#reg_toggle").css("display","inline");
 			$('#initial').hide();
 			$('#canvas, #toolbar').show();
 			$(document).bind("contextmenu",function(e){
@@ -69,7 +69,8 @@ $(function () {
 			});
 		};
 		window.onbeforeunload = function() {
-			return "Do you really want to leave MetaVerse?";
+			if (!World.logging_out)
+				return "Do you really want to leave MetaVerse?";
 		};
 		$(document).keypress(function(e){
 			if (e.keyCode != 13){
@@ -77,7 +78,7 @@ $(function () {
 			}
 		});
 		World.callbacks.login_failed = function () {
-			$("#login input[type=submit]").css("display","inline");
+			$("#login input[type=submit], a#reg_toggle").css("display","inline");
 			loaderBox(true);
 			World.alertBox({ title: "Oops!",
 				message: 'There was an error logging in, check your username and password.',

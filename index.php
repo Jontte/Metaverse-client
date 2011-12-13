@@ -1,10 +1,11 @@
 <?
-$version = "In Development";
+$version = "InDev b20";
 ?>
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>MetaVerse</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="css/game.css?<? echo time(); ?>" />
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.8.16.min.js"></script>
@@ -23,7 +24,11 @@ $version = "In Development";
 		function toggleForms(){
 			$("#login, #register").toggle();
 			if ($("#register").is(":visible")){
-				$("#initial_message").html("Registration does not actually work yet.");
+				World.alertBox({ title: "Sorry",
+					message: 'Registration does not yet actually work.',
+					cancel: "OK",
+					cancel_color: "#23D422"
+				});
 			} else {
 				$("#initial_message").html("");
 			}
@@ -45,7 +50,7 @@ $version = "In Development";
 				<input type="text" id="username" placeholder="Username" /><br /><br />
 				<input type="password" id="password" placeholder="Password" /><br /><br />
 				<input type="submit" value="Login" /><br /><br />
-				<a href="#" onclick="toggleForms()">Register</a>
+				<a href="#" id="reg_toggle" onclick="toggleForms()">Register</a>
 			</form>
 		</div>
 		<div id="register">
