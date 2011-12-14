@@ -1,7 +1,7 @@
 World = {
 	proxymanager: null,
 	socket: null,
-	camera: { x: 0, y: 0, target: 0 },
+	camera: { x: 0, y: 0, target: null }, // current camera screen coordinates and target handle or null
 	cursor: null,
 	current_user: null,
 	logging_out: false,
@@ -239,10 +239,31 @@ World = {
 		// Rebuild render graph if needed
 		w.proxymanager.rebuildGraph();
 
+		// Get current camera position from camera target, if any
+		if(w.camera.target != null)
+		{
+			var t = w.camera.target;
+			var pos = World2Screen(t.smooth_x, t.smooth_y, t.smooth_z);
+			w.camera.x = pos.x;
+			w.camera.y = pos.y;
+		}
+
 		// Draw proxies
 		ctx.save();
-		ctx.translate((w.screen_width / 2) - w.camera.x, (w.screen_height / 2) - w.camera.y);
+		var offx = w.camera.x;
+		var offy = w.camera.y;
+		ctx.translate((w.screen_width / 2) - offx, (w.screen_height / 2) - offy);
 		w.proxymanager.draw(ctx);
+
+		// Render speech bubbles
+		SpeechBubble.updateAll(
+			offx - w.screen_width/2,
+			offy - w.screen_height/2,
+			offx + w.screen_width/2,
+			offy + w.screen_height/2);
+		SpeechBubble.uncollideAll();
+		SpeechBubble.renderAll(w.canvas_ctx);
+		
 		ctx.restore();
 
 		// Request next frame
@@ -250,14 +271,14 @@ World = {
 	},
 	cameraMove: function(opts){
 		var w = World;
-		var x = w.camera.x;
-		var y = w.camera.y;
-		if (opts.x != undefined){
-			x = opts.x;
-			y = opts.y;
+		if ('x' in opts && 'y' in opts) {
+			w.camera.x = opts.x;
+			w.camera.y = opts.y;
+			w.camera.target = null; // no need to follow them any longer
 		}
-		w.camera.x = x;
-		w.camera.y = y;
+		else if('id' in opts) {
+			w.camera.target = w.proxymanager.getProxy(opts.id);
+		}
 	},
 	updateCursor: function () {
 		// Set cursor position
@@ -366,6 +387,7 @@ World = {
 	},
 	onMessage: function (evt) {
 		var d = evt.data;
+		var w = World;
 		// See if data contains something of interest to us
 		var json = JSON.parse(d);
 		if (typeof (json) != 'object') return;
@@ -383,10 +405,18 @@ World = {
 				World.proxymanager.addTemplate(json.ct[i]);
 			}
 		} else if ('dp' in json) {
-			// Delete-proxy
+			// Delete-proxies
+			// If the server decides to delete the current camera target,
+			//	set camera target to null
 			var l = json.cp;
 			for (var i = 0; i < json.dp.length; i++) {
-				World.proxymanager.delProxy(json.dp[i]);
+				var id = json.dp[i];
+				if(	w.camera.target != null &&
+					w.camera.target.id == id)
+				{
+					w.camera.target = null;
+				}
+				World.proxymanager.delProxy(id);
 			}
 		} else if ('oe' in json) {
 			// Object-event
@@ -423,7 +453,7 @@ World = {
 				});
 			}
 		} else if ('camera' in json){
-			World.cameraMove(json);
+			World.cameraMove(json.camera);
 			console.log("Received camera packet");
 			console.log(json);
 		}

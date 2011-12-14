@@ -192,11 +192,6 @@ ProxyManager.prototype.draw = function (dest) {
 
 		node = node.next;
 	}
-
-	// Render speech bubbles
-	SpeechBubble.updateAll(-w.screen_width / 2, -w.screen_height / 2, w.screen_width / 2, w.screen_height / 2);
-	SpeechBubble.uncollideAll();
-	SpeechBubble.renderAll(w.canvas_ctx);
 }
 ProxyManager.prototype.rebuildGraph = function () {
 /*
