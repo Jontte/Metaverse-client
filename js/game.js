@@ -189,9 +189,10 @@ World = {
 		var manager = new ProxyManager()
 
 		// Add builtin templates
-		manager.addTemplate(['_cursor', 'plethora.png', false, 0, 1, 1, 0, [
+		var templ = manager.addTemplate(['_cursor', 'plethora.png', false, 1, 1, 0, [
 			[5, 1]
 		]]);
+		templ.warp_movement = true; // Force warped movement
 
 		// Add builtin proxys
 		World.cursor = manager.addProxy([0, '_cursor', 0, 0, 1]);
@@ -454,8 +455,6 @@ World = {
 			}
 		} else if ('camera' in json){
 			World.cameraMove(json.camera);
-			console.log("Received camera packet");
-			console.log(json);
 		}
 	}
 }
