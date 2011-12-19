@@ -124,11 +124,14 @@ ProxyManager.prototype.addTemplate = function (json) {
 	var template_id = json[0];
 	if (template_id in this.templates) {
 		// known template updated.
-		this.templates[template_id].readFrom(json);
+		var t = this.templates[template_id];
+		t.readFrom(json);
+		return t;
 	} else {
 		var p = new Template();
 		p.readFrom(json);
 		this.templates[template_id] = p;
+		return p;
 	}
 }
 ProxyManager.prototype.smooth = function () {
@@ -136,7 +139,7 @@ ProxyManager.prototype.smooth = function () {
 	while (node != null) {
 		var p = node.get();
 
-		if (p.template.movement_type == 0) {
+		if (p.template.solid || ('warp_movement' in p.template)) {
 			// warp
 			if (p.smooth_x != p.x || p.smooth_y != p.y || p.smooth_z != p.z) p.dirty = true;
 

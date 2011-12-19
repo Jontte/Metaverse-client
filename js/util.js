@@ -1,6 +1,5 @@
 // Transform world coordinates to screen coordinates
 
-
 function World2Screen(x, y, z) {
 	return {
 		x: (x - y) * 16,

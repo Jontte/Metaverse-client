@@ -9,10 +9,10 @@ font-family:Helvetica, Arial, Verdana, sans-serif;
 font-size:13px;
 margin:0;
 padding:0;
-width:800px;
-height:600px;
+height:100%;
+width:100%;
 overflow:hidden;
-position:fixed;
+position:fixed
 }
 * {
 cursor:default;
@@ -22,7 +22,74 @@ user-select:none;
 -o-user-select:none;
 -ms-user-select:none;
 }
-input[type=text], input[type=password], input[type=emessages] {
+.game_info {
+width:700px;
+height:100px;
+background:#f0f0f0;
+border:4px solid #9492a8;
+font-size:20px;
+color:#222632;
+z-index:1000;
+position:absolute;
+bottom:10px;
+left:50%;
+margin-left:-352px;
+outline:4px solid #22272D;
+font-family: Pokemon;
+font-size: 25px;
+padding: 10px;
+line-height: 26px;
+}
+body.battlefield {
+background: #7bf4eb; /* Old browsers */
+background: -moz-linear-gradient(top, #7bf4eb 0%, #03e0ce 10%, #b1f8f2 28%, #09c881 32%, #7ef273 43%, #08cb58 57%, #00c768 71%, #21db97 84%, #71e95a 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7bf4eb), color-stop(10%,#03e0ce), color-stop(28%,#b1f8f2), color-stop(32%,#09c881), color-stop(43%,#7ef273), color-stop(57%,#08cb58), color-stop(71%,#00c768), color-stop(84%,#21db97), color-stop(100%,#71e95a)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* IE10+ */
+background: linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7bf4eb', endColorstr='#71e95a',GradientType=0 ); /* IE6-9 */
+}
+div.battle_platform {
+background-size:100%;
+background:url(../images/grass_battle_platform.png);
+position:absolute;
+display:none
+}
+* {
+image-rendering:-webkit-optimize-contrast
+}
+div#opponent {
+right:50px;
+top:30%;
+width:304px;
+height:77px;
+}
+div#player {
+width:456px;
+height:115.5px;
+bottom:110px;
+left:50px;
+}
+div#player > img.human {
+width: 600px;
+position: absolute;
+bottom: -110px;
+left: -140px;
+}
+div#player > img.creature {
+width: 450px;
+position: absolute;
+bottom: -100px;
+left: -30px;
+}
+div#opponent > img {
+width:200px;
+position: relative;
+top: -80px;
+left: 40px;
+}
+input[type=text], input[type=password], input[type=email] {
 border-radius:13px;
 -webkit-border-radius:13px;
 -ms-border-radius:13px;
@@ -46,6 +113,9 @@ margin-right:auto;
 padding-top:100px;
 text-align:center
 }
+canvas#canvas {
+display:none;
+}
 img#logo {
 width:271px;
 height:56px
@@ -61,11 +131,36 @@ div#register td {
 text-align:left;
 padding-bottom:5px
 }
-div#register input[type=text], div#register input[type=password], div#register input[type=emessages] {
+div#register input[type=text], div#register input[type=password], div#register input[type=email] {
 width:150px;
 text-align:left;
 padding-left:3px;
 padding-right:3px
+}
+input#login_button {
+border:0;
+border-radius:13px;
+padding:2px 8px;
+cursor:pointer;
+background: #e2e2e2; /* Old browsers */
+background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e2e2e2), color-stop(50%,#dbdbdb), color-stop(51%,#d1d1d1), color-stop(100%,#fefefe)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* IE10+ */
+background: linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+}
+input#login_button:active {
+background: #1e5799; /* Old browsers */
+background: -moz-linear-gradient(top,  #1e5799 0%, #2989d8 50%, #7db9e8 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* IE10+ */
+background: linear-gradient(top,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+color:#fff
 }
 a {
 color:gray
@@ -83,9 +178,10 @@ display:none;
 margin:0;
 padding:0;
 background-color:#001862;
-width:800px;
+width:100%;
 height:28px;
-text-align:center
+text-align:center;
+overflow:hidden
 }
 input#chat {
 width:368px;
@@ -110,7 +206,7 @@ display:none;
 padding-bottom:10px;
 padding-top:10px;
 position:absolute;
-left:221.5px;
+left:38%;
 top:150px;
 text-align:center;
 width:357px
@@ -130,14 +226,22 @@ background:url(../images/bar.png) repeat fixed -42px 0 transparent;
 box-shadow:0 0 10px #000 inset;
 height:15px
 }
+.ui-resizable-handle {
+position:absolute;
+bottom:2px;
+right:2px;
+height:12px;
+width:12px;
+background:url(http://xqdebug.googlecode.com/svn-history/r10/trunk/assets/images/resizable-handle.gif);
+}
 /**************************************/
 div#messages {
 background-color:#0B1E55;
 border:2px solid #B6CBDC;
 border-radius:60px 0 10px 10px;
-height:300px;
+min-height:300px;
 padding:5px;
-width:400px;
+min-width:400px;
 position:absolute;
 display:none
 }
@@ -156,25 +260,42 @@ width:365px
 div#pmtab.unread {
 font-style:italic
 }
-div#all_lines {
+div#console_lines {
 font-size:12px;
 overflow:auto;
 height:222px
 }
-div#all_lines > span {
+div#console_lines > span {
+display:none
+}
+div#console_lines.all > span {
 display:block
 }
-div#all_lines.public > span.pm, 
-div#all_lines.public > span.server {
-display:none;
+div#console_lines > span.show {
+display:block;
 }
-div#all_lines.pm > span.public, 
-div#all_lines.pm > span.server {
-display:none;
+div#console_lines.public > span.public {
+display:block;
 }
-div#all_lines.server > span.pm, 
-div#all_lines.server > span.public {
+div#console_lines.server > span.server {
+display:block;
+}
+#pmchat {
 display:none;
+width:368px;
+height:28px;
+color:#fff;
+background:url(../images/chatbar.png) no-repeat;
+border:0;
+font-family:Pokemon;
+border-radius:0;
+text-align:left;
+padding-left:5px;
+padding-right:5px;
+margin-left:auto;
+margin-right:auto;
+position:relative;
+left:-3px
 }
 .server {
 color: #F97A7A;
@@ -195,18 +316,17 @@ top:3px;
 z-index:804
 }
 
-div#all_messages, #private_messages {
+div#all_messages {
 background:#265792;
 border:5px solid #A5D3FF;
 border-radius:0 0 10px 10px;
 height:222px;
-margin-left:auto;
-margin-right:auto;
+margin-left:6px;
+margin-right:6px;
 padding:6px;
 position:relative;
 text-align:left;
-top:-5px;
-width:365px;
+top:-4px;
 word-wrap:break-word
 }
 
@@ -219,11 +339,12 @@ padding-left:9px;
 position:relative;
 text-align:left;
 top:-4px;
-width:390px
 }
 /**************************************/
 div#viewport {
 line-height:0;
+width:100%;
+height:100%
 }
 div#messages_button {
 background:url(../images/messages_button.png) no-repeat;

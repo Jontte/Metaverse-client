@@ -3,8 +3,6 @@ function Template() {}
 Template.prototype = {
 	id: '',
 	resource: '',
-	movement_type: 0,
-	// warp = 0, linear = 1, exponential = 2
 	// bounding box size
 	bx: 0,
 	by: 0,
@@ -14,14 +12,13 @@ Template.prototype = {
 	readFrom: function (json) {
 		this.id = json[0];
 		this.resource = json[1];
-		this.movement_type = json[2];
-		this.solid = json[3];
-		this.bx = json[4];
-		this.by = json[5];
-		this.bz = json[6];
+		this.solid = json[2];
+		this.bx = json[3];
+		this.by = json[4];
+		this.bz = json[5];
 		this.tiles = [];
-		for (var i = 0; i < json[7].length; i++) {
-			this.tiles.push([json[7][i][0], json[7][i][1]]);
+		for (var i = 0; i < json[6].length; i++) {
+			this.tiles.push([json[6][i][0], json[6][i][1]]);
 		}
 	}
 }

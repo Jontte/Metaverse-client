@@ -1,5 +1,5 @@
 <?
-$version = "InDev b20";
+$version = "In Development";
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -20,20 +20,6 @@ $version = "InDev b20";
 	<script type="text/javascript" src="js/util.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/game.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/main.js?<? echo time(); ?>"></script>
-	<script type="text/javascript">
-		function toggleForms(){
-			$("#login, #register").toggle();
-			if ($("#register").is(":visible")){
-				World.alertBox({ title: "Sorry",
-					message: 'Registration does not yet actually work.',
-					cancel: "OK",
-					cancel_color: "#23D422"
-				});
-			} else {
-				$("#initial_message").html("");
-			}
-		}
-	</script>
 </head>
 <body>
 	<div id="loaderbox">
@@ -47,13 +33,15 @@ $version = "InDev b20";
 		<span id="initial_message"></span><br /><br />
 		<div id="login">
 			<form action="#" id="login-form">
-				<input type="text" id="username" placeholder="Username" /><br /><br />
+				<input type="text" id="username" placeholder="Username" <? if (isset($_COOKIE['login_username'])){
+																			   echo " value='".$_COOKIE['login_username']."'";
+																		   } ?> /><br /><br />
 				<input type="password" id="password" placeholder="Password" /><br /><br />
-				<input type="submit" value="Login" /><br /><br />
-				<a href="#" id="reg_toggle" onclick="toggleForms()">Register</a>
+				<input type="submit" value="Login" id="login_button" /><br /><br />
+				<!--<a href="#" id="reg_toggle" onclick="toggleForms()">Register</a>-->
 			</form>
 		</div>
-		<div id="register">
+		<!--<div id="register">
 			<form action="#" id="registration-form">
 				<table>
 					<tr>
@@ -75,14 +63,13 @@ $version = "InDev b20";
 				<input type="submit" value="Submit" /><br /><br />
 				<a href="#" onclick="toggleForms()">Back to Login</a>
 			</form>
-		</div>
+		</div>-->
 	</div>
 	<div id="viewport">
-		<canvas id="canvas" width="800" height="572" style="display:none;">
-		Your browser does not support the HTML5 canvas element</canvas>
+		<canvas id="canvas">Your browser does not support the HTML5 canvas element</canvas>
 		<div id="toolbar">
 			<div id="messages_button" onclick="World.showMessageWindow()"></div>
-			<input type="text" id="chat" placeholder="Type a message..." autocomplete="off" />
+			<input type="text" id="chat" placeholder="Type a message..." tabindex="1" autocomplete="off" />
 			<div id="logout_button" onclick="World.logout()"></div>
 		</div>
 	</div>
@@ -92,10 +79,10 @@ $version = "InDev b20";
 				<span class="msg_control_selected" id="alltab" onclick="World.switchMessagesTab('all')">All</span>
 				<span id="publictab" onclick="World.switchMessagesTab('public')">Public</span>
 				<span id="servertab" onclick="World.switchMessagesTab('server')">Server</span>
-        		<span id="pmtab" onclick="World.switchMessagesTab('pm')">Private</span>
         	</div>
         	<div id="all_messages">
-        		<div class="all" id="all_lines"></div>
+        		<div class="all" tabindex="2" id="console_lines"></div>
+        		<input type="text" id="pmchat" placeholder="Type a message..." autocomplete="off" />
         	</div>
         	<div id="compose_messages">
         		<strong>To:</strong> <input type="text" id="pm_to" /><br />

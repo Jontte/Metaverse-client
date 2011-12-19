@@ -1,11 +1,20 @@
 World = {
 	proxymanager: null,
 	socket: null,
-	camera: { x: 0, y: 0, target: null }, // current camera screen coordinates and target handle or null
+	camera: {
+		x: 0,
+		y: 0,
+		target: null
+	},
+	// current camera screen coordinates and target handle or null
 	cursor: null,
 	current_user: null,
 	logging_out: false,
-	
+	screen_width: 800,
+	screen_height: 600,
+	isFocused: true,
+	awayMsgNum: 0,
+
 	callbacks: {
 		login_successful: null,
 		login_failed: null,
@@ -20,7 +29,6 @@ World = {
 	input_queue: [],
 	// received messages are stored here until the system is properly initialized.
 	login: function (opts) {
-		console.log("Login method was called");
 		// pass opts.username, opts.password here.
 		var socktype = window.MozWebSocket || window.WebSocket;
 		if (!socktype) {
@@ -129,7 +137,15 @@ World = {
 	switchMessagesTab: function (tab) {
 		$(".msg_control_selected").removeClass("msg_control_selected");
 		$("#" + tab + "tab").addClass("msg_control_selected");
-		$("#all_lines").removeClass("public pm server all").addClass(tab);
+		$("#console_lines > span").removeClass("show");
+		if ((tab!="server")&&(tab!="public")&&(tab!="all")){
+			$("#console_lines").removeClass("server public all").css("height",($("#messages").height() - 108) + "px");
+			$("#console_lines > span." + tab).addClass("show");
+			$("#pmchat").css("display","block");
+		} else {
+			$("#console_lines").removeClass("server public all").addClass(tab).css("height",($("#messages").height() - 80) + "px");;
+			$("#pmchat").css("display","none");
+		}
 	},
 	alertBox: function (opts) {
 		var title = opts.title;
@@ -140,9 +156,7 @@ World = {
 		var accept_color = opts.accept_color;
 		var callback = opts.callback;
 		var randomid = Math.floor(Math.random() * 6);
-		$("<div class='alert' id='" + randomid + "'><span class='title'>" + title + "</span>" + 
-			"<span class='message'>" + message + "</span>" + "<input type='button' class='cancel' value='" + 
-			cancel + "' onclick='$(\"div.alert#" + randomid + "\").remove()' /></div>").appendTo("#viewport");
+		$("<div class='alert' id='" + randomid + "'><span class='title'>" + title + "</span>" + "<span class='message'>" + message + "</span>" + "<input type='button' class='cancel' value='" + cancel + "' onclick='$(\"div.alert#" + randomid + "\").remove()' /></div>").appendTo("#viewport");
 		if (accept != undefined) $("<input type='button' class='accept' value='" + accept + "' />").click(function () {
 			$("div.alert#" + randomid).remove();
 			callback();
@@ -182,17 +196,14 @@ World = {
 		w.canvas = document.getElementById('canvas');
 		w.canvas_ctx = World.canvas.getContext('2d');
 
-		w.screen_width = 800;
-		w.screen_height = 572;
-
 		// Create proxymanager
 		var manager = new ProxyManager()
 
 		// Add builtin templates
-		manager.addTemplate(['_cursor', 'plethora.png', false, 0, 1, 1, 0, [
+		var templ = manager.addTemplate(['_cursor', 'plethora.png', false, 1, 1, 0, [
 			[5, 1]
 		]]);
-
+		templ.warp_movement = true; // Force warped movement
 		// Add builtin proxys
 		World.cursor = manager.addProxy([0, '_cursor', 0, 0, 1]);
 
@@ -219,14 +230,6 @@ World = {
 		// draw background
 		ctx.fillStyle = 'rgb(127,160,255)';
 		ctx.fillRect(0, 0, w.screen_width, w.screen_height);
-
-		var txt = 'MetaVerse InDev';
-		ctx.font = "20px Pokemon";
-		ctx.strokeText(txt, 5, 20);
-		var txt = 'Cursor at (' + Key.mouse_x + ', ' + Key.mouse_y + ')';
-		ctx.font = "15px Pokemon";
-		ctx.strokeText(txt, 5, 35);
-
 		// Update curosr
 		w.updateCursor();
 
@@ -240,8 +243,7 @@ World = {
 		w.proxymanager.rebuildGraph();
 
 		// Get current camera position from camera target, if any
-		if(w.camera.target != null)
-		{
+		if (w.camera.target != null) {
 			var t = w.camera.target;
 			var pos = World2Screen(t.smooth_x, t.smooth_y, t.smooth_z);
 			w.camera.x = pos.x;
@@ -250,6 +252,12 @@ World = {
 
 		// Draw proxies
 		ctx.save();
+
+		var txt = 'MetaVerse';
+		ctx.font = "15px Helvetica, Arial, Verdana, sans-serif";
+		ctx.fillStyle = "#000";
+		ctx.fillText(txt, 5, 20);
+
 		var offx = w.camera.x;
 		var offy = w.camera.y;
 		ctx.translate((w.screen_width / 2) - offx, (w.screen_height / 2) - offy);
@@ -257,26 +265,22 @@ World = {
 
 		// Render speech bubbles
 		SpeechBubble.updateAll(
-			offx - w.screen_width/2,
-			offy - w.screen_height/2,
-			offx + w.screen_width/2,
-			offy + w.screen_height/2);
+		offx - w.screen_width / 2, offy - w.screen_height / 2, offx + w.screen_width / 2, offy + w.screen_height / 2);
 		SpeechBubble.uncollideAll();
 		SpeechBubble.renderAll(w.canvas_ctx);
-		
+
 		ctx.restore();
 
 		// Request next frame
 		requestAnimFrame(w.processFrame, w.canvas);
 	},
-	cameraMove: function(opts){
+	cameraMove: function (opts) {
 		var w = World;
 		if ('x' in opts && 'y' in opts) {
 			w.camera.x = opts.x;
 			w.camera.y = opts.y;
 			w.camera.target = null; // no need to follow them any longer
-		}
-		else if('id' in opts) {
+		} else if ('id' in opts) {
 			w.camera.target = w.proxymanager.getProxy(opts.id);
 		}
 	},
@@ -344,8 +348,22 @@ World = {
 			}
 		}
 	},
+	loaderBox: function (done, title, subtext) {
+		if (!done) {
+			$('#boxtitle').html(title);
+			$('#subtext').html(subtext);
+			$('#loaderbox').show();
+			$('.room').hide();
+			$('.map').hide();
+			$('#loaderbar').css('background-position', (Number($('#loaderbar').css('background-position').replace('px 0px', '')) + 1) + 'px 0px');
+			repeater = setTimeout('World.loaderBox(undefined,"' + title + '","' + subtext + '")', 10);
+		} else {
+			clearTimeout(repeater);
+			$('#loaderbox').hide();
+		}
+	},
 	log: function (msg, type) {
-		var e = document.getElementById('all_lines');
+		var e = document.getElementById('console_lines');
 		var now = new Date();
 		var h = now.getHours();
 		var m = now.getMinutes();
@@ -357,6 +375,10 @@ World = {
 			$(e.childNodes[0]).remove();
 		}
 		e.scrollTop = e.scrollHeight;
+		if (World.isFocused == false) {
+			World.awayMsgNum++;
+			setTitle("MetaVerse (" + World.awayMsgNum + ")");
+		}
 	},
 	send: function (json) {
 		World.socket.send(JSON.stringify(json));
@@ -411,9 +433,7 @@ World = {
 			var l = json.cp;
 			for (var i = 0; i < json.dp.length; i++) {
 				var id = json.dp[i];
-				if(	w.camera.target != null &&
-					w.camera.target.id == id)
-				{
+				if (w.camera.target != null && w.camera.target.id == id) {
 					w.camera.target = null;
 				}
 				World.proxymanager.delProxy(id);
@@ -432,12 +452,17 @@ World = {
 			World.log('<strong>Server:</strong> ' + json.gmesg, "server");
 		} else if ('pmesg' in json) {
 			// private message
-			World.log('<strong>' + json.username + ':</strong> ' + json.pmesg, "pm");
+			var show = "";
+			if (!$("#" + json.username + "tab").is("*")){
+				$("<span id=\"" + json.username + "tab\" onclick=\"World.switchMessagesTab('" + json.username + "')\">" + json.username + "</span>").appendTo("#messages_control");
+			} else if ($("#" + json.username + "tab").hasClass("msg_control_selected")){
+				show = " show";
+			}
+			World.log('<strong>' + json.username + ':</strong> ' + json.pmesg, "pm " + json.username + show);
 			var audioElement = document.createElement('audio');
 			audioElement.setAttribute('src', 'audio/mail.mp3');
 			audioElement.play();
 			if ($("#messages").is(":hidden")) {
-				document.title = "MetaVerse - New PM";
 				$("#messages_button").addClass("active").bind("click", function () {
 					$(this).unbind();
 					$(this).removeClass("active");
@@ -445,17 +470,13 @@ World = {
 				});
 			}
 			if (!$("#all_lines").hasClass("pm")) {
-				document.title = "MetaVerse - New PM";
 				$("#pmtab").addClass("unread").bind("click", function () {
 					$(this).unbind();
 					$(this).removeClass("unread");
-					document.title = "MetaVerse";
 				});
 			}
-		} else if ('camera' in json){
+		} else if ('camera' in json) {
 			World.cameraMove(json.camera);
-			console.log("Received camera packet");
-			console.log(json);
 		}
 	}
 }
