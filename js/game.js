@@ -315,7 +315,7 @@ World = {
 	},
 	playAnimation: function () {
 		if ($("#tempeditor_playanim").is(":checked")) {
-			World.animationInfo.animation = eval("World.proxymanager.templates[$(\"#template_selector\").val()].animations[\"" + $("#tempeditor_animname").text() + "\"]");
+			//World.animationInfo.animation = eval("World.proxymanager.templates[$(\"#template_selector\").val()].animations[\"" + $("#tempeditor_animname").text() + "\"]");
 			World.animationInfo.animation = eval("World.workingTemplate.animations[\"" + $("#tempeditor_animname").text() + "\"]");
 			World.animationInfo.name = $("#tempeditor_animname").text();
 			requestAnimFrame(World.playAnimation);
