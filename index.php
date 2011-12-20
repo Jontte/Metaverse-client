@@ -1,6 +1,3 @@
-<?
-$version = "In Development";
-?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -28,9 +25,8 @@ $version = "In Development";
     	<span id="subtext">Please wait as the server is contacted.</span>
 	</div>
 	<div id="initial">
-		<img src="images/logo.png" alt="MetaVerse" id="logo" /><br />
-		<div id="version"><? echo $version; ?></div><br />
-		<span id="initial_message"></span><br /><br />
+		<img src="images/logo.gif" alt="MetaVerse" id="logo" /><br />
+		<span id="initial_message"></span><br />
 		<div id="login">
 			<form action="#" id="login-form">
 				<input type="text" id="username" placeholder="Username" <? if (isset($_COOKIE['login_username'])){

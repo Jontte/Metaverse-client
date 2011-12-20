@@ -13,7 +13,9 @@ padding:0;
 height:100%;
 width:100%;
 overflow:hidden;
-position:fixed
+position:fixed;
+display:table;
+text-align:center
 }
 
 body.battlefield {
@@ -120,11 +122,12 @@ user-select:auto;
 }
 
 div#initial {
-width:275px;
 margin-left:auto;
 margin-right:auto;
 padding-top:100px;
-text-align:center
+text-align:center;
+display:table-cell;
+vertical-align:middle
 }
 
 canvas#canvas {
@@ -132,8 +135,8 @@ display:none
 }
 
 img#logo {
-width:271px;
-height:56px
+width:350px;
+height:123px
 }
 
 div#register {
