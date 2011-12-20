@@ -65,7 +65,8 @@ display:none
 }
 
 * {
-image-rendering:0
+image-rendering:0;
+border:0
 }
 
 div#opponent {
@@ -124,7 +125,6 @@ user-select:auto;
 div#initial {
 margin-left:auto;
 margin-right:auto;
-padding-top:100px;
 text-align:center;
 display:table-cell;
 vertical-align:middle
