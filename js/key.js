@@ -52,7 +52,6 @@ var Key = {
 		$(document).keyup(Key.keyup);
 		$(target_element).mousedown(Key.mousedown);
 		$(target_element).mouseup(Key.mouseup);
-		$(target_element).mousehold(500, Key.mousehold);
 		$(target_element).mousewheel(function (event, delta, deltaX, deltaY) {
 			// Note the use of keyhit function here. Mouse wheel has no up/down state
 			// Using keyhit here ensures timeheld() and get() return 0

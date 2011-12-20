@@ -10,7 +10,6 @@ $version = "In Development";
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.8.16.min.js"></script>
 	<script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
-	<script type="text/javascript" src="js/jquery.mousehold.js"></script>
 	<script type="text/javascript" src="js/speech_bubble.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/jsbih.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/config.js?<? echo time(); ?>"></script>
