@@ -112,30 +112,30 @@ $(function () {
 			$("#tempeditor_width").change(function () {
 				$("#tempeditor_image > div > div").css("width", ($(this).val() * 32) + "px");
 				$("#tempeditor_width_disp").text($(this).val());
-				World.workingTemplate.bx = $(this).val();
+				World.workingTemplate.bx = Number($(this).val());
 			});
 			$("#tempeditor_length").change(function () {
 				$("#tempeditor_length_disp").text($(this).val());
-				World.workingTemplate.by = $(this).val();
+				World.workingTemplate.by = Number($(this).val());
 			});
 			$("#tempeditor_height").change(function () {
 				$("#tempeditor_image > div > div").css("height", ($(this).val() * 32) + "px");
 				$("#tempeditor_height_disp").text($(this).val());
-				World.workingTemplate.bz = $(this).val();
+				World.workingTemplate.bz = Number($(this).val());
 			});
 			$("#tempeditor_x").change(function () {
 				$("#tempeditor_image > div > div").css("background-position", "-" + ($(this).val() * 32) + "px -" + ($("#tempeditor_y").val() * 32) + "px");
 				$("#tempeditor_x_disp").text($(this).val());
-				World.workingTemplate.animations[eval($("#tempeditor_animation").val())] = [$(this).val(), $("#tempeditor_y").val(), $("#tempeditor_tick").val()];
+				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + "= [Number($(this).val()), Number($(\"#tempeditor_y\").val()), Number($(\"#tempeditor_tick\").val())]");
 			});
 			$("#tempeditor_y").change(function () {
 				$("#tempeditor_image > div > div").css("background-position", "-" + ($("#tempeditor_x").val() * 32) + "px -" + ($(this).val() * 32) + "px");
 				$("#tempeditor_y_disp").text($(this).val());
-				World.workingTemplate.animations[eval($("#tempeditor_animation").val())] = [$("#tempeditor_x").val(), $(this).val(), $("#tempeditor_tick").val()];
+				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + "= [Number($(\"#tempeditor_x\").val()), Number($(this).val()), Number($(\"#tempeditor_tick\").val())]");
 			});
 			$("#tempeditor_tick").change(function () {
 				$("#tempeditor_tick_disp").text($(this).val());
-				World.workingTemplate.animations[eval($("#tempeditor_animation").val())] = [$("#tempeditor_x").val(), $("#tempeditor_y").val(), $(this).val()];
+				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + "= [Number($(\"#tempeditor_x\").val()), Number($(\"#tempeditor_y\").val()), Number($(this).val())]");
 			});
 			$(window).focusin(function () {
 				World.isFocused = true;

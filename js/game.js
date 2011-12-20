@@ -251,7 +251,8 @@ World = {
 	},
 	enumerateTempEditor: function (id) {
 		//var template = World.proxymanager.templates[id];
-		var template = World.sampleTemplates[0];
+		World.workingTemplate = World.sampleTemplates[0];
+		var template = World.workingTemplate;
 		World.workingTemplate = template;
 		$("#tempeditor_resource").val(template.resource);
 		$("#tempeditor_solid").prop("checked", template.solid);
@@ -288,11 +289,11 @@ World = {
 		});
 	},
 	enumerateTempEditorAnim: function () {
-		//var animation = World.proxymanager.templates[$("#template_selector").val()].animations[eval($("#tempeditor_animation").val())];
-		var animation = eval("World.sampleTemplates[0].animations" + $("#tempeditor_animation").val());
-		$("#tempeditor_x").val(animation[0]);
-		$("#tempeditor_y").val(animation[1]);
-		$("#tempeditor_tick").val(animation[2]);
+		//var animation = eval("World.proxymanager.templates[$(\"#template_selector\").val()].animations" + $("#tempeditor_animation").val());
+		var animation = eval("World.workingTemplate.animations" + $("#tempeditor_animation").val());
+		$("#tempeditor_x").val(Number(animation[0]));
+		$("#tempeditor_y").val(Number(animation[1]));
+		$("#tempeditor_tick").val(Number(animation[2]));
 		$("#tempeditor_x_disp").text(animation[0]);
 		$("#tempeditor_y_disp").text(animation[1]);
 		$("#tempeditor_tick_disp").text(animation[2]);
@@ -304,28 +305,37 @@ World = {
 	},
 	saveTemplate: function () {
 		var template = World.workingTemplate;
-		console.log(template);
-		alert("Here is the JSON object as a string:\n" + JSON.stringify(template) + "\n\nThe JSON object has also been logged to the JavaScript console.");
+		alert("Here is the JSON object as a string:\n" + JSON.stringify(template) + "\n\nThe template is avaliable via World.workingTemplate");
+	},
+	animationInfo: {
+		animation: null,
+		step: 0,
+		name: null,
+		tickStep: 1
 	},
 	playAnimation: function () {
 		if ($("#tempeditor_playanim").is(":checked")) {
-			var animation = eval("World.sampleTemplates[0].animations" + $("#tempeditor_animation").val());
-			var step = 0;
-			var name = $("#tempeditor_animname").text();
-			var animator = setInterval(function () {
-				if (!$("#tempeditor_playanim").is(":checked")) {
-					clearInterval(animator);
-				} else {
-					$("#tempeditor_animation").val('["' + name + '"][' + step + ']');
-					console.log('["' + name + '"][' + step + ']');
-					World.enumerateTempEditorAnim();
-					if (step < (animation.length - 1)) {
-						step++;
-					} else {
-						step = 0;
-					}
-				}
-			}, 100); // in the future, the interval should be the tick * 100, and may be different for each frame
+			World.animationInfo.animation = eval("World.proxymanager.templates[$(\"#template_selector\").val()].animations[\"" + $("#tempeditor_animname").text() + "\"]");
+			World.animationInfo.animation = eval("World.workingTemplate.animations[\"" + $("#tempeditor_animname").text() + "\"]");
+			World.animationInfo.name = $("#tempeditor_animname").text();
+			requestAnimFrame(World.playAnimation);
+			$("#tempeditor_animation").val('["' + World.animationInfo.name + '"][' + World.animationInfo.step + ']');
+			World.enumerateTempEditorAnim();
+			if (World.animationInfo.animation[World.animationInfo.step][2] > World.animationInfo.tickStep){
+				World.animationInfo.tickStep++;
+			} else if (World.animationInfo.step < (World.animationInfo.animation.length - 1)) {
+				World.animationInfo.tickStep = 1;
+				World.animationInfo.step++;
+			} else {
+				World.animationInfo.step = 0;
+			}
+		} else {
+			World.animationInfo = {
+				animation: null,
+				step: 0,
+				name: null,
+				tickStep: 1
+			};
 		}
 	},
 	loadLevel: function () {
