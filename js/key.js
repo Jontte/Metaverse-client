@@ -52,6 +52,7 @@ var Key = {
 		$(document).keyup(Key.keyup);
 		$(target_element).mousedown(Key.mousedown);
 		$(target_element).mouseup(Key.mouseup);
+		$(target_element).mousehold(500, Key.mousehold);
 		$(target_element).mousewheel(function (event, delta, deltaX, deltaY) {
 			// Note the use of keyhit function here. Mouse wheel has no up/down state
 			// Using keyhit here ensures timeheld() and get() return 0
@@ -88,8 +89,18 @@ var Key = {
 			keyCode: MOUSE_RIGHT
 		});
 	},
+	mousehold: function (evt) {
+		if (evt.which == 1) return Key.keydown({
+			keyCode: MOUSE_LEFT
+		});
+		else if (evt.which == 2) return Key.keydown({
+			keyCode: MOUSE_MIDDLE
+		});
+		else if (evt.which == 3) return Key.keydown({
+			keyCode: MOUSE_RIGHT
+		});
+	},
 	mouseup: function (evt) {
-		$('#message').focus();
 		if (evt.which == 1) return Key.keyup({
 			keyCode: MOUSE_LEFT
 		});

@@ -77,7 +77,7 @@ $(function () {
 						height: ($("#messages").height() - 80) + "px"
 					});
 					var num;
-					if (!$("#console_lines").is(".public, .server, .all")){
+					if (!$("#console_lines").is(".public, .server, .all")) {
 						num = 108;
 					} else {
 						num = 80;
@@ -91,6 +91,51 @@ $(function () {
 						$(this).css("height", ($("body").height() - 28) + "px");
 					}
 				}
+			});
+			$("#tempeditor").draggable({
+				handle: "#tempeditor_handle",
+				stop: function () {
+					if ($(this).offset().left > ($("body").width() - 50)) {
+						$(this).css("left", ($("body").width() - 50) + "px");
+					}
+					if ($(this).offset().top > ($("body").height() - 50)) {
+						$(this).css("top", ($("body").height() - 50) + "px");
+					}
+					if ($(this).offset().left < -350) {
+						$(this).css("left", "-350px");
+					}
+					if ($(this).offset().top < 0) {
+						$(this).css("top", "0px");
+					}
+				}
+			});
+			$("#tempeditor_width").change(function () {
+				$("#tempeditor_image > div > div").css("width", ($(this).val() * 32) + "px");
+				$("#tempeditor_width_disp").text($(this).val());
+				World.workingTemplate.bx = $(this).val();
+			});
+			$("#tempeditor_length").change(function () {
+				$("#tempeditor_length_disp").text($(this).val());
+				World.workingTemplate.by = $(this).val();
+			});
+			$("#tempeditor_height").change(function () {
+				$("#tempeditor_image > div > div").css("height", ($(this).val() * 32) + "px");
+				$("#tempeditor_height_disp").text($(this).val());
+				World.workingTemplate.bz = $(this).val();
+			});
+			$("#tempeditor_x").change(function () {
+				$("#tempeditor_image > div > div").css("background-position", "-" + ($(this).val() * 32) + "px -" + ($("#tempeditor_y").val() * 32) + "px");
+				$("#tempeditor_x_disp").text($(this).val());
+				World.workingTemplate.animations[eval($("#tempeditor_animation").val())] = [$(this).val(), $("#tempeditor_y").val(), $("#tempeditor_tick").val()];
+			});
+			$("#tempeditor_y").change(function () {
+				$("#tempeditor_image > div > div").css("background-position", "-" + ($("#tempeditor_x").val() * 32) + "px -" + ($(this).val() * 32) + "px");
+				$("#tempeditor_y_disp").text($(this).val());
+				World.workingTemplate.animations[eval($("#tempeditor_animation").val())] = [$("#tempeditor_x").val(), $(this).val(), $("#tempeditor_tick").val()];
+			});
+			$("#tempeditor_tick").change(function () {
+				$("#tempeditor_tick_disp").text($(this).val());
+				World.workingTemplate.animations[eval($("#tempeditor_animation").val())] = [$("#tempeditor_x").val(), $("#tempeditor_y").val(), $(this).val()];
 			});
 			$(window).focusin(function () {
 				World.isFocused = true;
@@ -116,10 +161,10 @@ $(function () {
 			if (!World.logging_out) return "Do you really want to leave MetaVerse?";
 		};
 		$(document).keydown(function (e) {
-			if (((e.keyCode == 38)||(e.keyCode == 40))&&($("#console_lines, #messages").is(":visible"))){
+			if (((e.keyCode == 38) || (e.keyCode == 40)) && ($("#console_lines, #messages").is(":visible"))) {
 				$("#console_lines").focus();
-			} else if (e.keyCode != 13) {
-				if ($("#pmchat").is(":visible")){
+			} else if ((e.keyCode != 13) && (!$("#tempeditor_resource").is(":focus"))) {
+				if ($("#pmchat").is(":visible") && (!$("#chat").is(":focus"))) {
 					$("#pmchat").focus();
 				} else {
 					$("#chat").focus();
@@ -198,7 +243,7 @@ $(function () {
 		if (e.keyCode == 13) {
 			try {
 				var message = $("#pmchat").val();
-				var user = $("#console_lines > span:visible").attr("class").replace("pm ","").replace(" show","");
+				var user = $("#console_lines > span:visible").attr("class").replace("pm ", "").replace(" show", "");
 				World.sendPM(message, user);
 				$('#pmchat').val('');
 			} catch (e) {

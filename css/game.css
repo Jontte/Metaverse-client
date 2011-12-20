@@ -1,8 +1,9 @@
 @font-face {
 font-family:Pokemon;
-src:url(../images/pokemon.ttf);
+src:url(../images/pokemon.ttf)
 }
-html, body {
+
+html,body {
 background-color:#000;
 color:#fff;
 font-family:Helvetica, Arial, Verdana, sans-serif;
@@ -14,14 +15,27 @@ width:100%;
 overflow:hidden;
 position:fixed
 }
+
+body.battlefield {
+background: #7bf4eb; /* Old browsers */
+background: -moz-linear-gradient(top, #7bf4eb 0%, #03e0ce 10%, #b1f8f2 28%, #09c881 32%, #7ef273 43%, #08cb58 57%, #00c768 71%, #21db97 84%, #71e95a 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7bf4eb), color-stop(10%,#03e0ce), color-stop(28%,#b1f8f2), color-stop(32%,#09c881), color-stop(43%,#7ef273), color-stop(57%,#08cb58), color-stop(71%,#00c768), color-stop(84%,#21db97), color-stop(100%,#71e95a)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* IE10+ */
+background: linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7bf4eb', endColorstr='#71e95a',GradientType=0 ); /* IE6-9 */
+}
+
 * {
 cursor:default;
 user-select:none;
 -webkit-user-select:none;
 -moz-user-select:none;
 -o-user-select:none;
--ms-user-select:none;
+-ms-user-select:none
 }
+
 .game_info {
 width:700px;
 height:100px;
@@ -35,61 +49,59 @@ bottom:10px;
 left:50%;
 margin-left:-352px;
 outline:4px solid #22272D;
-font-family: Pokemon;
-font-size: 25px;
-padding: 10px;
-line-height: 26px;
+font-family:Pokemon;
+font-size:25px;
+padding:10px;
+line-height:26px
 }
-body.battlefield {
-background: #7bf4eb; /* Old browsers */
-background: -moz-linear-gradient(top, #7bf4eb 0%, #03e0ce 10%, #b1f8f2 28%, #09c881 32%, #7ef273 43%, #08cb58 57%, #00c768 71%, #21db97 84%, #71e95a 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7bf4eb), color-stop(10%,#03e0ce), color-stop(28%,#b1f8f2), color-stop(32%,#09c881), color-stop(43%,#7ef273), color-stop(57%,#08cb58), color-stop(71%,#00c768), color-stop(84%,#21db97), color-stop(100%,#71e95a)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* IE10+ */
-background: linear-gradient(top, #7bf4eb 0%,#03e0ce 10%,#b1f8f2 28%,#09c881 32%,#7ef273 43%,#08cb58 57%,#00c768 71%,#21db97 84%,#71e95a 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7bf4eb', endColorstr='#71e95a',GradientType=0 ); /* IE6-9 */
-}
+
 div.battle_platform {
 background-size:100%;
 background:url(../images/grass_battle_platform.png);
 position:absolute;
 display:none
 }
+
 * {
-image-rendering:-webkit-optimize-contrast
+image-rendering:0
 }
+
 div#opponent {
 right:50px;
 top:30%;
 width:304px;
-height:77px;
+height:77px
 }
+
 div#player {
 width:456px;
 height:115.5px;
 bottom:110px;
-left:50px;
+left:50px
 }
+
 div#player > img.human {
-width: 600px;
-position: absolute;
-bottom: -110px;
-left: -140px;
+width:600px;
+position:absolute;
+bottom:-110px;
+left:-140px
 }
+
 div#player > img.creature {
-width: 450px;
-position: absolute;
-bottom: -100px;
-left: -30px;
+width:450px;
+position:absolute;
+bottom:-100px;
+left:-30px
 }
+
 div#opponent > img {
 width:200px;
-position: relative;
-top: -80px;
-left: 40px;
+position:relative;
+top:-80px;
+left:40px
 }
-input[type=text], input[type=password], input[type=email] {
+
+input[type=text],input[type=password],input[type=email] {
 border-radius:13px;
 -webkit-border-radius:13px;
 -ms-border-radius:13px;
@@ -104,8 +116,9 @@ user-select:auto;
 -webkit-user-select:auto;
 -moz-user-select:auto;
 -o-user-select:auto;
--ms-user-select:auto;
+-ms-user-select:auto
 }
+
 div#initial {
 width:275px;
 margin-left:auto;
@@ -113,30 +126,37 @@ margin-right:auto;
 padding-top:100px;
 text-align:center
 }
+
 canvas#canvas {
-display:none;
+display:none
 }
+
 img#logo {
 width:271px;
 height:56px
 }
+
 div#register {
-display:none;
+display:none
 }
+
 div#register table {
 margin-left:auto;
 margin-right:auto
 }
+
 div#register td {
 text-align:left;
 padding-bottom:5px
 }
-div#register input[type=text], div#register input[type=password], div#register input[type=email] {
+
+div#register input[type=text],div#register input[type=password],div#register input[type=email] {
 width:150px;
 text-align:left;
 padding-left:3px;
 padding-right:3px
 }
+
 input#login_button {
 border:0;
 border-radius:13px;
@@ -151,6 +171,7 @@ background: -ms-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 
 background: linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
 }
+
 input#login_button:active {
 background: #1e5799; /* Old browsers */
 background: -moz-linear-gradient(top,  #1e5799 0%, #2989d8 50%, #7db9e8 100%); /* FF3.6+ */
@@ -162,17 +183,21 @@ background: linear-gradient(top,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* W3C *
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
 color:#fff
 }
+
 a {
 color:gray
 }
+
 a:active {
 color:#fff
 }
+
 div#version {
 text-align:right;
 font-size:10px;
-color:gray;
+color:gray
 }
+
 div#toolbar {
 display:none;
 margin:0;
@@ -183,6 +208,7 @@ height:28px;
 text-align:center;
 overflow:hidden
 }
+
 input#chat {
 width:368px;
 height:28px;
@@ -197,6 +223,7 @@ padding-right:5px;
 position:relative;
 top:-10px
 }
+
 div#loaderbox {
 background-color:#0B1E55;
 border:2px solid #FFF;
@@ -226,60 +253,63 @@ background:url(../images/bar.png) repeat fixed -42px 0 transparent;
 box-shadow:0 0 10px #000 inset;
 height:15px
 }
+
 .ui-resizable-handle {
 position:absolute;
 bottom:2px;
 right:2px;
 height:12px;
 width:12px;
-background:url(http://xqdebug.googlecode.com/svn-history/r10/trunk/assets/images/resizable-handle.gif);
+background:url(http://xqdebug.googlecode.com/svn-history/r10/trunk/assets/images/resizable-handle.gif)
 }
-/**************************************/
+
+/*************MESSENGER****************/
 div#messages {
 background-color:#0B1E55;
 border:2px solid #B6CBDC;
 border-radius:60px 0 10px 10px;
-min-height:300px;
+min-height:124px;
 padding:5px;
 min-width:400px;
 position:absolute;
 display:none
 }
+
 div#messages_handle {
 position:relative;
-left:4px;
+left:4px
 }
-div#msg_contain, #compose_messages {
-background:#0B1E55;
-border:2px solid #439BD9;
-border-radius:10px 10px 10px 10px;
-height:222px;
-padding:5px;
-width:365px
-}
+
 div#pmtab.unread {
 font-style:italic
 }
+
 div#console_lines {
 font-size:12px;
 overflow:auto;
 height:222px
 }
+
 div#console_lines > span {
 display:none
 }
+
 div#console_lines.all > span {
 display:block
 }
+
 div#console_lines > span.show {
-display:block;
+display:block
 }
+
 div#console_lines.public > span.public {
-display:block;
+display:block
 }
+
 div#console_lines.server > span.server {
-display:block;
+display:block
 }
+
 #pmchat {
 display:none;
 width:368px;
@@ -297,14 +327,13 @@ margin-right:auto;
 position:relative;
 left:-3px
 }
+
 .server {
-color: #F97A7A;
+color:#F97A7A
 }
+
 .pm {
-color: #84D5FE;
-}
-div#compose_messages {
-display:none
+color:#84D5FE
 }
 
 .msg_control_selected {
@@ -338,14 +367,70 @@ height:18px;
 padding-left:9px;
 position:relative;
 text-align:left;
-top:-4px;
+top:-4px
 }
+/***********TEMPLATE EDITOR************/
+div#tempeditor {
+background-color:#0B1E55;
+border:2px solid #B6CBDC;
+border-radius:60px 0 10px 10px;
+padding:5px;
+width:400px;
+position:absolute;
+display:none
+}
+
+div#tempeditor_handle {
+position:relative;
+left:4px
+}
+
+div#tempeditor_content {
+background:#265792;
+border:5px solid #A5D3FF;
+border-radius:0 0 10px 10px;
+margin-left:6px;
+margin-right:6px;
+padding:6px;
+position:relative;
+text-align:left;
+top:-4px;
+word-wrap:break-word;
+padding-bottom:20px;
+}
+
+div#tempeditor_image {
+background:#0B1E55;
+border:2px solid #439BD9;
+border-radius:10px 10px 10px 10px;
+min-height:32px;
+max-height:322px;
+width:355px;
+padding:5px;
+position:relative;
+top:10px;
+display:table;
+}
+div#tempeditor_image > div {
+display:table-cell;
+vertical-align:middle;
+}
+div#tempeditor_image > div > div {
+width:32px;
+width:32px;
+margin-left:auto;
+margin-right:auto;
+border:1px dashed red;
+}
+
+
 /**************************************/
 div#viewport {
 line-height:0;
 width:100%;
 height:100%
 }
+
 div#messages_button {
 background:url(../images/messages_button.png) no-repeat;
 width:31px;
@@ -355,9 +440,25 @@ margin:0;
 display:inline-block;
 cursor:pointer
 }
-div#messages_button:active, div#messages_button.active {
-background:url(../images/messages_button_active.png) no-repeat;
+
+div#messages_button:active,div#messages_button.active {
+background:url(../images/messages_button_active.png) no-repeat
 }
+
+div#tempeditor_button {
+background:url(../images/tempeditor_button.png) no-repeat;
+width:31px;
+height:28px;
+padding:0;
+margin:0;
+display:inline-block;
+cursor:pointer
+}
+
+div#tempeditor_button:active,div#tempeditor_button.active {
+background:url(../images/tempeditor_button_active.png) no-repeat
+}
+
 div#logout_button {
 background:url(../images/logout.png) no-repeat;
 width:22px;
@@ -367,9 +468,11 @@ margin:0;
 display:inline-block;
 cursor:pointer
 }
+
 div#logout_button:active {
-background:url(../images/logout_active.png) no-repeat;
+background:url(../images/logout_active.png) no-repeat
 }
+
 div.alert {
 background-color:#0B1E55;
 border:2px solid #FFF;
@@ -385,39 +488,45 @@ text-align:center;
 width:200px;
 height:100px
 }
+
 div.alert > span.title {
-display: block;
-width: 190px;
-background-color: #0199CA;
-height: 15px;
-border-radius: 3px;
-margin-left: auto;
-margin-right: auto;
-position: relative;
-top: -5px;
-line-height: 14px;
-font-weight: bold
+display:block;
+width:190px;
+background-color:#0199CA;
+height:15px;
+border-radius:3px;
+margin-left:auto;
+margin-right:auto;
+position:relative;
+top:-5px;
+line-height:14px;
+font-weight:700
 }
+
 div.alert > span.message {
 line-height:15px;
 display:block
 }
+
 div.alert > input[type=button] {
-position: absolute;
-bottom: 5px;
-border: 2px solid white;
-border-radius: 4px;
-color: white;
+position:absolute;
+bottom:5px;
+border:2px solid #FFF;
+border-radius:4px;
+color:#FFF;
 cursor:pointer
 }
+
 div.alert > input.cancel {
 background:red;
-left:5px;
+left:5px
 }
+
 div.alert > input.accept {
 background:#23D422;
 right:5px
 }
+
 div#private_messages {
-display:none;
+display:none
 }
