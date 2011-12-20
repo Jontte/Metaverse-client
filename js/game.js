@@ -242,6 +242,7 @@ World = {
 	},
 	readTemplates: function () {
 		var templates = World.sampleTemplates;
+		$("#template_selector").html("<option disabled>Templates</option>");
 		$.each(templates, function (index, item) {
 			if (item.id.substring(0, 1) != "_") {
 				$("#template_selector").append("<option value='" + item.id + "'>" + item.id + "</option>");

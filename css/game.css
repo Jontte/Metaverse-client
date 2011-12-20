@@ -342,7 +342,7 @@ border-radius:5px 5px 0 0;
 padding:4px 4px 12px;
 position:relative;
 top:3px;
-z-index:804
+z-index:1
 }
 
 div#all_messages {
@@ -377,7 +377,8 @@ border-radius:60px 0 10px 10px;
 padding:5px;
 width:400px;
 position:absolute;
-display:none
+display:none;
+z-index:2
 }
 
 div#tempeditor_handle {
