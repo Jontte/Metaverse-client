@@ -85,15 +85,6 @@ $version = "In Development";
         	<div class="all" tabindex="2" id="console_lines"></div>
         	<input type="text" id="pmchat" placeholder="Type a message..." autocomplete="off" />
         </div>
-    	<div id="compose_messages">
-        	<strong>To:</strong> <input type="text" id="pm_to" /><br />
-        	<div id="composecontain">
-        		<textarea id="newmessage"></textarea>
-        		<span class="msgbuttons">
-       				<input type="button" onclick="World.sendPM(true)" id="send" value="Send" />
-        		</span>
-        	</div>
-        </div>
 	</div>
 	<div id="tempeditor">
 		<img src="images/tempeditor_banner.png" id="tempeditor_handle" alt="Template Editor" />
