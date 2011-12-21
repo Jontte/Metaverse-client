@@ -176,16 +176,19 @@ ProxyManager.prototype.draw = function (dest) {
 
 		var tile_x = 0;
 		var tile_y = 0;
-
-		if (p.template.tiles.length == 0) {
-			node = node.next;
-			continue;
+		
+		// Advance the object's animation
+		p.advanceAnimation();
+		
+		// The object cannot be rendered if it has no 'anim_current'
+		if(p.anim_current != null)
+		{
+			tile_x = p.template.animations[p.anim_current][p.anim_frame][0];
+			tile_y = p.template.animations[p.anim_current][p.anim_frame][1];
+			dest.drawImage(
+				p.src, 32 * tile_x, 32 * tile_y, target.w, target.h, target.x, target.y, target.w, target.h
+			);
 		}
-		tile_x = p.template.tiles[0][0];
-		tile_y = p.template.tiles[0][1];
-		dest.drawImage(
-		p.src, 32 * tile_x, 32 * tile_y, target.w, target.h, target.x, target.y, target.w, target.h);
-
 		if (p.bubble) {
 			p.bubble.target({
 				x: target.x + target.w / 2,

@@ -346,9 +346,9 @@ World = {
 		// Create proxymanager
 		var manager = new ProxyManager()
 		// Add builtin templates
-		var templ = manager.addTemplate(['_cursor', 'plethora.png', false, 1, 1, 0, [
-			[5, 1]
-		]]);
+		var templ = manager.addTemplate(['_cursor', 'plethora.png', false, 1, 1, 0, {
+			'idle': [[5, 1, 0]]
+		}]);
 		templ.warp_movement = true; // Force warped movement
 		// Add builtin proxys
 		World.cursor = manager.addProxy([0, '_cursor', 0, 0, 1]);
