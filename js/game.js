@@ -294,6 +294,20 @@ World = {
 		$("#tempeditor_animation_frame").append("<option value='[" + (num - 1) + "]'>" + num + "</option>").val("[" + (num - 1) + "]");
 		World.enumerateTempEditorAnimFrame();
 	},
+	removeAnimation: function () {
+		var animToDelete = eval("World.workingTemplate.animations" + $("#tempeditor_animation").val());
+		delete animToDelete;
+		$("#tempeditor_animation > option[value='"+$("#tempeditor_animation").val()+"']").remove();
+		$("#tempeditor_animation_frame").html("");
+		World.enumerateTempEditorAnim();
+	},
+	removeAnimFrame: function () {
+		var animation = eval("World.workingTemplate.animations" + $("#tempeditor_animation").val());
+		var frame = $("#tempeditor_animation_frame").val().replace("[","").replace("]","");
+		animation.splice(frame, 1);
+		$("#tempeditor_animation_frame > option[value='"+$("#tempeditor_animation_frame").val()+"']").remove();
+		World.enumerateTempEditorAnimFrame();
+	},
 	saveTemplate: function () {
 		var template = World.workingTemplate;
 		alert("Here is the JSON object as a string:\n" + JSON.stringify(template) + "\n\nThe template is avaliable via World.workingTemplate");

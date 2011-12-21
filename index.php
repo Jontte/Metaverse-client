@@ -96,8 +96,8 @@
         	Length: <input type="range" min="1" max="10" value="1" step="1" id="tempeditor_length" /> <span id="tempeditor_length_disp">1</span><br />
         	Height: <input type="range" min="1" max="10" value="1" step="1" id="tempeditor_height" /> <span id="tempeditor_height_disp">1</span><br /><br />
         	<strong>Sprite Position:</strong><br />
-        	Animation: <select id="tempeditor_animation" onchange="World.enumerateTempEditorAnim()"></select> <input type="button" value="+" onclick="World.addAnimation()" /><br />
-        	Frame: <select id="tempeditor_animation_frame" onchange="World.enumerateTempEditorAnimFrame()"></select> <input type="button" value="+" onclick="World.addAnimFrame()" /><br />
+        	Animation: <select id="tempeditor_animation" onchange="World.enumerateTempEditorAnim()"></select> <input type="button" value="+" onclick="World.addAnimation()" /> <input type="button" value="-" onclick="World.removeAnimation()" /><br />
+        	Frame: <select id="tempeditor_animation_frame" onchange="World.enumerateTempEditorAnimFrame()"></select> <input type="button" value="+" onclick="World.addAnimFrame()" /> <input type="button" value="-" onclick="World.removeAnimFrame()" /><br />
         	X: <input type="range" min="0" max="10" value="0" step="1" id="tempeditor_x" /> <span id="tempeditor_x_disp">0</span><br />
         	Y: <input type="range" min="0" max="10" value="0" step="1" id="tempeditor_y" /> <span id="tempeditor_y_disp">0</span><br />
         	Tick: <input type="range" min="1" max="10" value="0" step="1" id="tempeditor_tick" /> <span id="tempeditor_tick_disp">1</span><br />
