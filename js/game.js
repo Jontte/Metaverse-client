@@ -230,10 +230,10 @@ World = {
 		$("#tempeditor_y_disp").text(firstAnim[1]);
 		$("#tempeditor_tick_disp").text(firstAnim[2]);
 		$("#tempeditor_animation, #tempeditor_animation_frame").html("");
-		var i=0;
+		var i = 0;
 		$.each(animations, function (name, item) {
 			$("#tempeditor_animation").append("<option value='[\"" + name + "\"]'>" + name + "</option>");
-			if (i==0){
+			if (i == 0) {
 				$.each(item, function (index) {
 					$("#tempeditor_animation_frame").append("<option value='[" + index + "]'>" + (index + 1) + "</option>");
 				});
@@ -264,8 +264,6 @@ World = {
 		$("#tempeditor_animname").text(animName);
 		$("#tempeditor_animation_frame").html("");
 		$.each(animation, function (index, item) {
-			console.log("The animation '" + animName + " has a frame " + index);
-			console.log(item);
 			$("#tempeditor_animation_frame").append("<option value='[" + index + "]'>" + (index + 1) + "</option>");
 		});
 	},
@@ -283,13 +281,15 @@ World = {
 	},
 	addAnimation: function () {
 		var name = prompt("Enter the name of the new animation:");
-		World.workingTemplate.animations[name] = [[0,0,1]];
+		World.workingTemplate.animations[name] = [
+			[0, 0, 1]
+		];
 		$("#tempeditor_animation").append("<option value='[\"" + name + "\"]'>" + name + "</option>").val("[\"" + name + "\"]");
 		$("#tempeditor_animation_frame").html("");
 		World.enumerateTempEditorAnim();
 	},
 	addAnimFrame: function () {
-		World.workingTemplate.animations[$("#tempeditor_animname").text()].push([0,0,1]);
+		World.workingTemplate.animations[$("#tempeditor_animname").text()].push([0, 0, 1]);
 		var num = World.workingTemplate.animations[$("#tempeditor_animname").text()].length;
 		$("#tempeditor_animation_frame").append("<option value='[" + (num - 1) + "]'>" + num + "</option>").val("[" + (num - 1) + "]");
 		World.enumerateTempEditorAnimFrame();
@@ -311,7 +311,7 @@ World = {
 			requestAnimFrame(World.playAnimation);
 			$("#tempeditor_animation_frame").val('[' + World.animationInfo.step + ']');
 			World.enumerateTempEditorAnimFrame();
-			if (World.animationInfo.animation[World.animationInfo.step][2] > World.animationInfo.tickStep){
+			if (World.animationInfo.animation[World.animationInfo.step][2] > World.animationInfo.tickStep) {
 				World.animationInfo.tickStep++;
 			} else if (World.animationInfo.step < (World.animationInfo.animation.length - 1)) {
 				World.animationInfo.tickStep = 1;
@@ -336,8 +336,11 @@ World = {
 		// Create proxymanager
 		var manager = new ProxyManager()
 		// Add builtin templates
-		var templ = manager.addTemplate(['_cursor', 'plethora.png', false, 1, 1, 0, {
-			'idle': [[5, 1, 0]]
+		var templ = manager.addTemplate(['_cursor', 'plethora.png', false, 1, 1, 0,
+		{
+			'idle': [
+				[5, 1, 0]
+			]
 		}]);
 		templ.warp_movement = true; // Force warped movement
 		// Add builtin proxys
@@ -362,7 +365,7 @@ World = {
 		var gradient = ctx.createLinearGradient(0, 0, 0, w.screen_height);
 		gradient.addColorStop(0, "rgba(214,249,255,1)");
 		gradient.addColorStop(1, "#001862");
-			
+
 		// Fill the path
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, w.screen_width, w.screen_height);
@@ -383,7 +386,7 @@ World = {
 		}
 		// Draw proxies
 		ctx.save();
-		/*var txt = 'MetaVerse';
+/*var txt = 'MetaVerse';
 		ctx.font = "15px Helvetica, Arial, Verdana, sans-serif";
 		ctx.fillStyle = "#000";
 		ctx.fillText(txt, 5, 20);*/
