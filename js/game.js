@@ -295,8 +295,7 @@ World = {
 		World.enumerateTempEditorAnimFrame();
 	},
 	removeAnimation: function () {
-		var animToDelete = eval("World.workingTemplate.animations" + $("#tempeditor_animation").val());
-		delete animToDelete;
+		eval("delete World.workingTemplate.animations" + $("#tempeditor_animation").val());
 		$("#tempeditor_animation > option[value='"+$("#tempeditor_animation").val()+"']").remove();
 		$("#tempeditor_animation_frame").html("");
 		World.enumerateTempEditorAnim();
