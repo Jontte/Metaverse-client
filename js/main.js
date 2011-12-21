@@ -126,16 +126,16 @@ $(function () {
 			$("#tempeditor_x").change(function () {
 				$("#tempeditor_image > div > div").css("background-position", "-" + ($(this).val() * 32) + "px -" + ($("#tempeditor_y").val() * 32) + "px");
 				$("#tempeditor_x_disp").text($(this).val());
-				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + "= [Number($(this).val()), Number($(\"#tempeditor_y\").val()), Number($(\"#tempeditor_tick\").val())]");
+				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + $("#tempeditor_animation_frame").val() + " = [" + Number($(this).val()) + ", " + Number($("#tempeditor_y").val()) + ", " + Number($("#tempeditor_tick").val()) + "]");
 			});
 			$("#tempeditor_y").change(function () {
 				$("#tempeditor_image > div > div").css("background-position", "-" + ($("#tempeditor_x").val() * 32) + "px -" + ($(this).val() * 32) + "px");
 				$("#tempeditor_y_disp").text($(this).val());
-				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + "= [Number($(\"#tempeditor_x\").val()), Number($(this).val()), Number($(\"#tempeditor_tick\").val())]");
+				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + $("#tempeditor_animation_frame").val() + " = [" + Number($("#tempeditor_x").val()) + ", " + Number($(this).val()) + ", " + Number($("#tempeditor_tick").val()) + "]");
 			});
 			$("#tempeditor_tick").change(function () {
 				$("#tempeditor_tick_disp").text($(this).val());
-				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + "= [Number($(\"#tempeditor_x\").val()), Number($(\"#tempeditor_y\").val()), Number($(this).val())]");
+				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() +$("#tempeditor_animation_frame").val() +  " = [" + Number($("#tempeditor_x").val()) + ", " + Number($("#tempeditor_y").val()) + ", " + Number($(this).val()) + "]");
 			});
 			$(window).focusin(function () {
 				World.isFocused = true;
@@ -169,6 +169,9 @@ $(function () {
 				} else {
 					$("#chat").focus();
 				}
+			} else if ((e.keyCode == 13) && ($(".alert").is(":visible"))){
+				$(".cancel").trigger("click");
+				return false;
 			}
 		});
 		World.callbacks.login_failed = function () {

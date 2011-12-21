@@ -85,7 +85,7 @@
 	<div id="tempeditor">
 		<img src="images/tempeditor_banner.png" id="tempeditor_handle" alt="Template Editor" />
         <div id="tempeditor_content">
-        	<select id="template_selector" onchange="World.enumerateTempEditor($(this).val())">
+        	<select id="template_selector" onchange="World.enumerateTempEditor()">
         		<option disabled>Templates</option>
         	</select>
         	<input type="button" onclick="World.readTemplates()" value="Reload Templates" />
@@ -96,7 +96,8 @@
         	Length: <input type="range" min="1" max="10" value="1" step="1" id="tempeditor_length" /> <span id="tempeditor_length_disp">1</span><br />
         	Height: <input type="range" min="1" max="10" value="1" step="1" id="tempeditor_height" /> <span id="tempeditor_height_disp">1</span><br /><br />
         	<strong>Sprite Position:</strong><br />
-        	Animation Frame: <select id="tempeditor_animation" onchange="World.enumerateTempEditorAnim()"></select><br />
+        	Animation: <select id="tempeditor_animation" onchange="World.enumerateTempEditorAnim()"></select> <input type="button" value="+" onclick="World.addAnimation()" /><br />
+        	Frame: <select id="tempeditor_animation_frame" onchange="World.enumerateTempEditorAnimFrame()"></select> <input type="button" value="+" onclick="World.addAnimFrame()" /><br />
         	X: <input type="range" min="0" max="10" value="0" step="1" id="tempeditor_x" /> <span id="tempeditor_x_disp">0</span><br />
         	Y: <input type="range" min="0" max="10" value="0" step="1" id="tempeditor_y" /> <span id="tempeditor_y_disp">0</span><br />
         	Tick: <input type="range" min="1" max="10" value="0" step="1" id="tempeditor_tick" /> <span id="tempeditor_tick_disp">1</span><br />

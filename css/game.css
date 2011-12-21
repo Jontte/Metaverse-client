@@ -3,7 +3,7 @@ font-family:Pokemon;
 src:url(../images/pokemon.ttf)
 }
 
-html,body {
+body {
 background-color:#000;
 color:#fff;
 font-family:Helvetica, Arial, Verdana, sans-serif;
@@ -14,7 +14,6 @@ height:100%;
 width:100%;
 overflow:hidden;
 position:fixed;
-display:table;
 text-align:center
 }
 

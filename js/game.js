@@ -14,51 +14,6 @@ World = {
 	screen_height: 600,
 	isFocused: true,
 	awayMsgNum: 0,
-	sampleTemplates: [{
-		id: 'guy',
-		resource: 'plethora.png',
-		bx: 1,
-		// width
-		by: 1,
-		// length
-		bz: 2,
-		// height
-		solid: false,
-		animations: {
-			'stand-sw': [
-				[0, 2, 1]
-			],
-			'stand-se': [
-				[4, 2, 1]
-			],
-			'stand-nw': [
-				[4, 4, 1]
-			],
-			'stand-ne': [
-				[0, 4, 1]
-			],
-			'walk-sw': [
-				[1, 2, 1],
-				[2, 2, 1],
-				[3, 2, 1]
-			],
-			'walk-se': [
-				[5, 2, 1],
-				[6, 2, 1],
-				[7, 2, 1]
-			],
-			'walk-nw': [
-				[5, 4, 1],
-				[6, 4, 1],
-				[7, 4, 1]
-			],
-			'walk-ne': [
-				[1, 4, 1],
-				[2, 4, 1],
-				[3, 4, 1]
-			]
-		}
-	}],
 	workingTemplate: null,
 
 	callbacks: {
@@ -241,7 +196,7 @@ World = {
 		}
 	},
 	readTemplates: function () {
-		var templates = World.sampleTemplates;
+		var templates = World.proxymanager.templates;
 		$("#template_selector").html("<option disabled>Templates</option>");
 		$.each(templates, function (index, item) {
 			if (item.id.substring(0, 1) != "_") {
@@ -249,10 +204,8 @@ World = {
 			}
 		});
 	},
-	enumerateTempEditor: function (id) {
-		//var template = World.proxymanager.templates[id];
-		World.workingTemplate = World.sampleTemplates[0];
-		var template = World.workingTemplate;
+	enumerateTempEditor: function () {
+		var template = World.proxymanager.templates[$("#template_selector").val()];
 		World.workingTemplate = template;
 		$("#tempeditor_resource").val(template.resource);
 		$("#tempeditor_solid").prop("checked", template.solid);
@@ -276,10 +229,16 @@ World = {
 		$("#tempeditor_x_disp").text(firstAnim[0]);
 		$("#tempeditor_y_disp").text(firstAnim[1]);
 		$("#tempeditor_tick_disp").text(firstAnim[2]);
+		$("#tempeditor_animation, #tempeditor_animation_frame").html("");
+		var i=0;
 		$.each(animations, function (name, item) {
-			$.each(item, function (index) {
-				$("#tempeditor_animation").append("<option value='[\"" + name + "\"][" + index + "]'>" + name + " " + (index + 1) + "</option>");
-			});
+			$("#tempeditor_animation").append("<option value='[\"" + name + "\"]'>" + name + "</option>");
+			if (i==0){
+				$.each(item, function (index) {
+					$("#tempeditor_animation_frame").append("<option value='[" + index + "]'>" + (index + 1) + "</option>");
+				});
+				i++;
+			}
 		});
 		$("#tempeditor_image > div > div").css({
 			background: "url(" + template.resource + ") no-repeat",
@@ -287,10 +246,31 @@ World = {
 			width: (template.bx * 32) + "px",
 			height: (template.bz * 32) + "px"
 		});
+		var animName = $("#tempeditor_animation").val().substring(2, $("#tempeditor_animation").val().length - 2);
+		$("#tempeditor_animname").text(animName);
 	},
 	enumerateTempEditorAnim: function () {
-		//var animation = eval("World.proxymanager.templates[$(\"#template_selector\").val()].animations" + $("#tempeditor_animation").val());
 		var animation = eval("World.workingTemplate.animations" + $("#tempeditor_animation").val());
+		$("#tempeditor_x").val(Number(animation[0][0]));
+		$("#tempeditor_y").val(Number(animation[0][1]));
+		$("#tempeditor_tick").val(Number(animation[0][2]));
+		$("#tempeditor_x_disp").text(animation[0][0]);
+		$("#tempeditor_y_disp").text(animation[0][1]);
+		$("#tempeditor_tick_disp").text(animation[0][2]);
+		$("#tempeditor_image > div > div").css({
+			backgroundPosition: "-" + (animation[0][0] * 32) + "px -" + (animation[0][1] * 32) + "px",
+		});
+		var animName = $("#tempeditor_animation").val().substring(2, $("#tempeditor_animation").val().length - 2);
+		$("#tempeditor_animname").text(animName);
+		$("#tempeditor_animation_frame").html("");
+		$.each(animation, function (index, item) {
+			console.log("The animation '" + animName + " has a frame " + index);
+			console.log(item);
+			$("#tempeditor_animation_frame").append("<option value='[" + index + "]'>" + (index + 1) + "</option>");
+		});
+	},
+	enumerateTempEditorAnimFrame: function () {
+		var animation = eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + $("#tempeditor_animation_frame").val());
 		$("#tempeditor_x").val(Number(animation[0]));
 		$("#tempeditor_y").val(Number(animation[1]));
 		$("#tempeditor_tick").val(Number(animation[2]));
@@ -300,8 +280,19 @@ World = {
 		$("#tempeditor_image > div > div").css({
 			backgroundPosition: "-" + (animation[0] * 32) + "px -" + (animation[1] * 32) + "px",
 		});
-		var animName = $("#tempeditor_animation").val().substring(2, $("#tempeditor_animation").val().length - 5);
-		$("#tempeditor_animname").text(animName);
+	},
+	addAnimation: function () {
+		var name = prompt("Enter the name of the new animation:");
+		World.workingTemplate.animations[name] = [[0,0,1]];
+		$("#tempeditor_animation").append("<option value='[\"" + name + "\"]'>" + name + "</option>").val("[\"" + name + "\"]");
+		$("#tempeditor_animation_frame").html("");
+		World.enumerateTempEditorAnim();
+	},
+	addAnimFrame: function () {
+		World.workingTemplate.animations[$("#tempeditor_animname").text()].push([0,0,1]);
+		var num = World.workingTemplate.animations[$("#tempeditor_animname").text()].length;
+		$("#tempeditor_animation_frame").append("<option value='[" + (num - 1) + "]'>" + num + "</option>").val("[" + (num - 1) + "]");
+		World.enumerateTempEditorAnimFrame();
 	},
 	saveTemplate: function () {
 		var template = World.workingTemplate;
@@ -315,12 +306,11 @@ World = {
 	},
 	playAnimation: function () {
 		if ($("#tempeditor_playanim").is(":checked")) {
-			//World.animationInfo.animation = eval("World.proxymanager.templates[$(\"#template_selector\").val()].animations[\"" + $("#tempeditor_animname").text() + "\"]");
 			World.animationInfo.animation = eval("World.workingTemplate.animations[\"" + $("#tempeditor_animname").text() + "\"]");
 			World.animationInfo.name = $("#tempeditor_animname").text();
 			requestAnimFrame(World.playAnimation);
-			$("#tempeditor_animation").val('["' + World.animationInfo.name + '"][' + World.animationInfo.step + ']');
-			World.enumerateTempEditorAnim();
+			$("#tempeditor_animation_frame").val('[' + World.animationInfo.step + ']');
+			World.enumerateTempEditorAnimFrame();
 			if (World.animationInfo.animation[World.animationInfo.step][2] > World.animationInfo.tickStep){
 				World.animationInfo.tickStep++;
 			} else if (World.animationInfo.step < (World.animationInfo.animation.length - 1)) {
@@ -369,7 +359,12 @@ World = {
 		var w = World;
 		var ctx = w.canvas_ctx;
 		// draw background
-		ctx.fillStyle = '#000';
+		var gradient = ctx.createLinearGradient(0, 0, 0, w.screen_height);
+		gradient.addColorStop(0, "rgba(214,249,255,1)");
+		gradient.addColorStop(1, "#001862");
+			
+		// Fill the path
+		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, w.screen_width, w.screen_height);
 		// Update curosr
 		w.updateCursor();
@@ -388,10 +383,10 @@ World = {
 		}
 		// Draw proxies
 		ctx.save();
-		var txt = 'MetaVerse';
+		/*var txt = 'MetaVerse';
 		ctx.font = "15px Helvetica, Arial, Verdana, sans-serif";
 		ctx.fillStyle = "#000";
-		ctx.fillText(txt, 5, 20);
+		ctx.fillText(txt, 5, 20);*/
 		var offx = w.camera.x;
 		var offy = w.camera.y;
 		ctx.translate((w.screen_width / 2) - offx, (w.screen_height / 2) - offy);
