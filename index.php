@@ -17,6 +17,9 @@
 	<script type="text/javascript" src="js/util.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/game.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/main.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/swfobject.js"></script>
+	<script type="text/javascript" src="js/web_socket.js"></script>
+	<script type="text/javascript">WEB_SOCKET_SWF_LOCATION="WebSocketMain.swf"</script>
 </head>
 <body>
 	<div id="loaderbox">
