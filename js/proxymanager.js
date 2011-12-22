@@ -55,23 +55,8 @@ ProxyManager.prototype.addProxy = function (json) {
 		proxy.template = new Template();
 	}
 
-	if (new_object && (proxy.template.solid == true)) {
-		// solid objects are stored in a the BIH
-		p = proxy;
-		t = p.template;
-		this.bih.insert({
-			intervals: [{
-				a: p.x,
-				b: t.bx
-			}, {
-				a: p.y,
-				b: t.by
-			}, {
-				a: p.z,
-				b: t.bz
-			}],
-			object: p
-		});
+	if (new_object) {
+		this._addToBIH(proxy);
 	}
 
 	if (new_object) {
@@ -95,24 +80,7 @@ ProxyManager.prototype.delProxy = function (id) {
 	while (node != null) {
 		var p = node.get();
 		if (p.id == id) {
-			if (p.template.solid) {
-				// remove solid object from the BIH
-				var t = p.template;
-				var objs = this.bih.remove({
-					optimized_remove: true,
-					intervals: [{
-						a: p.x,
-						b: t.bx
-					}, {
-						a: p.y,
-						b: t.by
-					}, {
-						a: p.z,
-						b: t.bz
-					}],
-					object: p
-				});
-			}
+			this._delFromBIH(p);
 			if (p.bubble) p.bubble.destroy();
 			node = node.erase();
 			return;
@@ -120,12 +88,77 @@ ProxyManager.prototype.delProxy = function (id) {
 		node = node.next;
 	}
 }
+ProxyManager.prototype._addToBIH = function(p)
+{
+	// Add solid object to the bih
+	if(!p.template.solid)
+		return;
+	var t = p.template;
+	this.bih.insert({
+		intervals: [{
+			a: p.x,
+			b: t.bx
+		}, {
+			a: p.y,
+			b: t.by
+		}, {
+			a: p.z,
+			b: t.bz
+		}],
+		object: p
+	});
+}
+ProxyManager.prototype._delFromBIH = function(p)
+{
+	// remove solid object from the BIH
+	if(!p.template.solid)
+		return;
+	var t = p.template;
+	var objs = this.bih.remove({
+		optimized_remove: true,
+		intervals: [{
+			a: p.x,
+			b: t.bx
+		}, {
+			a: p.y,
+			b: t.by
+		}, {
+			a: p.z,
+			b: t.bz
+		}],
+		object: p
+	});
+}
+ProxyManager.prototype._preUpdateTemplate = function(template_id)
+{
+	// Output of the function should be fed to a corresponding _postUpdateTemplate. ALWAYS
+	var ret = [];
+	var node = this.proxies.front();
+	while (node != null) {
+		var p = node.get();
+		if(p.template_id == template_id)
+		{
+			this._delFromBIH(p);
+			ret.push(p);
+		}
+		node = node.next;
+	}
+	return ret;
+}
+ProxyManager.prototype._postUpdateTemplate = function(data)
+{
+	for(var i = 0; i < data.length; i++) {
+		this._addToBIH(data[i]);
+	}
+}
 ProxyManager.prototype.addTemplate = function (json) {
 	var template_id = json[0];
 	if (template_id in this.templates) {
 		// known template updated.
+		var temp = this._preUpdateTemplate(template_id);
 		var t = this.templates[template_id];
 		t.readFrom(json);
+		this._postUpdateTemplate(t);
 		return t;
 	} else {
 		var p = new Template();
