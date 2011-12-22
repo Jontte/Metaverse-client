@@ -9,18 +9,20 @@ Template.prototype = {
 	bz: 0,
 	animations: {},
 	solid: false,
+	persistent: false, 
 	readFrom: function (json) {
 		this.id = json[0];
 		this.resource = json[1];
 		this.solid = json[2];
-		this.bx = json[3];
-		this.by = json[4];
-		this.bz = json[5];
+		this.persistent = json[3]
+		this.bx = json[4];
+		this.by = json[5];
+		this.bz = json[6];
 		this.animations = {};
-		for (var key in json[6]){
-			if(!json[6].hasOwnProperty(key))
+		for (var key in json[7]){
+			if(!json[7].hasOwnProperty(key))
 				continue;
-			var o = json[6][key];
+			var o = json[7][key];
 			var t = this.animations[key] = [];
 			for(var i = 0; i < o.length; i++)
 				t.push([o[i][0],o[i][1],o[i][2]]);
