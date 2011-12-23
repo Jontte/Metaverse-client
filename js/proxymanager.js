@@ -158,7 +158,7 @@ ProxyManager.prototype.addTemplate = function (json) {
 		var temp = this._preUpdateTemplate(template_id);
 		var t = this.templates[template_id];
 		t.readFrom(json);
-		this._postUpdateTemplate(t);
+		this._postUpdateTemplate(temp);
 		return t;
 	} else {
 		var p = new Template();
