@@ -162,7 +162,8 @@ SpeechBubble.prototype._render = function () {
 	this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
 
 	if (this._lines.length == 0) return;
-
+	this._context.strokeStyle = "#fff";
+	this._context.lineWidth = 2;
 	this._context.beginPath();
 	this._context.moveTo(this._textMargin, 0);
 	this._context.lineTo(this._size.w - this._textMargin, 0);
@@ -188,14 +189,14 @@ SpeechBubble.prototype._render = function () {
 		this._context.shadowColor = '#bbb';
 	}
 
-	this._context.fillStyle = '#fff';
+	this._context.fillStyle = '#031D56';
 	this._context.fill();
 
 	if (SpeechBubble.drawShadows) {
 		this._context.shadowOffsetX = 0;
 		this._context.shadowOffsetY = 0;
 		this._context.shadowBlur = 0;
-		this._context.shadowColor = 'transparent black';
+		this._context.shadowColor = '#fff';
 	}
 	this._context.stroke();
 
@@ -209,7 +210,7 @@ SpeechBubble.prototype._render = function () {
 	if (this._lines[0].isName) this._context.font = 'bold ' + this._fontSize + 'px sans-serif';
 	else this._context.font = this._fontSize + 'px sans-serif';
 
-	this._context.fillStyle = 'black';
+	this._context.fillStyle = '#fff';
 	for (var i = 0; i < this._lines.length; ++i) {
 		this._context.fillText(
 		this._lines[i].text, this._textMargin, this._textMargin + (this._fontSize + this._lineMargin) * i, this._size.w - this._textMargin * 2);

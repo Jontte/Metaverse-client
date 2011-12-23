@@ -1,21 +1,19 @@
 World = {
-	proxymanager: null,
-	socket: null,
-	camera: {
+	awayMsgNum: 0,
+	camera: { // current camera screen coordinates and target handle or null
 		x: 0,
 		y: 0,
 		target: null
 	},
-	// current camera screen coordinates and target handle or null
 	cursor: null,
-	current_user: null,
-	logging_out: false,
+	current_user: null, // username of logged in user
+	isFocused: true, // if the window is focused
+	logging_out: false, // is the user logging out?
+	proxymanager: null,
+	socket: null, // the websocket
 	screen_width: 800,
 	screen_height: 600,
-	isFocused: true,
-	awayMsgNum: 0,
-	workingTemplate: null,
-
+	workingTemplate: null, // template being edited in the Template Editor
 	callbacks: {
 		login_successful: null,
 		login_failed: null,
@@ -33,7 +31,12 @@ World = {
 		// pass opts.username, opts.password here.
 		var socktype = window.MozWebSocket || window.WebSocket;
 		if (!socktype) {
-			$("#initial_message").html('You browser does not support WebSockets');
+			World.alertBox({
+				title: 'Sorry!',
+				message: 'Your browser does not support WebSockets',
+				cancel: "OK",
+				cancel_color: "#23D422"
+			});
 			return;
 		}
 		var socket = new socktype(Config.socket_service);
@@ -204,11 +207,15 @@ World = {
 			}
 		});
 	},
-	enumerateTempEditor: function () {
-		var template = World.proxymanager.templates[$("#template_selector").val()];
-		World.workingTemplate = template;
+	enumerateTempEditor: function (override) {
+		if (override == undefined) {
+			var template = World.proxymanager.templates[$("#template_selector").val()];
+			World.workingTemplate = template;
+		}
+		template = World.workingTemplate;
 		$("#tempeditor_resource").val(template.resource);
 		$("#tempeditor_solid").prop("checked", template.solid);
+		$("#tempeditor_persistent").prop("checked", template.persistent);
 		$("#tempeditor_width").val(template.bx);
 		$("#tempeditor_length").val(template.by);
 		$("#tempeditor_height").val(template.bz);
@@ -243,8 +250,8 @@ World = {
 		$("#tempeditor_image > div > div").css({
 			background: "url(" + template.resource + ") no-repeat",
 			backgroundPosition: "-" + (firstAnim[0] * 32) + "px -" + (firstAnim[1] * 32) + "px",
-			width: (template.bx * 32) + "px",
-			height: (template.bz * 32) + "px"
+			width: ((template.bx + template.by) * 16) + "px",
+			height: ((template.bx + template.by + template.bz * 2) * 8) + "px"
 		});
 		var animName = $("#tempeditor_animation").val().substring(2, $("#tempeditor_animation").val().length - 2);
 		$("#tempeditor_animname").text(animName);
@@ -296,20 +303,22 @@ World = {
 	},
 	removeAnimation: function () {
 		eval("delete World.workingTemplate.animations" + $("#tempeditor_animation").val());
-		$("#tempeditor_animation > option[value='"+$("#tempeditor_animation").val()+"']").remove();
+		$("#tempeditor_animation > option[value='" + $("#tempeditor_animation").val() + "']").remove();
 		$("#tempeditor_animation_frame").html("");
 		World.enumerateTempEditorAnim();
 	},
 	removeAnimFrame: function () {
 		var animation = eval("World.workingTemplate.animations" + $("#tempeditor_animation").val());
-		var frame = $("#tempeditor_animation_frame").val().replace("[","").replace("]","");
+		var frame = $("#tempeditor_animation_frame").val().replace("[", "").replace("]", "");
 		animation.splice(frame, 1);
-		$("#tempeditor_animation_frame > option[value='"+$("#tempeditor_animation_frame").val()+"']").remove();
+		$("#tempeditor_animation_frame > option[value='" + $("#tempeditor_animation_frame").val() + "']").remove();
 		World.enumerateTempEditorAnimFrame();
 	},
 	saveTemplate: function () {
 		var template = World.workingTemplate;
-		alert("Here is the JSON object as a string:\n" + JSON.stringify(template) + "\n\nThe template is avaliable via World.workingTemplate");
+		World.socket.send(JSON.stringify({
+			'set-template': template
+		}));
 	},
 	animationInfo: {
 		animation: null,
@@ -340,6 +349,25 @@ World = {
 				tickStep: 1
 			};
 		}
+	},
+	addTemplate: function () {
+		var templateName = prompt("Enter the name of the new template:");
+		World.workingTemplate = {
+			"id": templateName,
+			"resource": "plethora.png",
+			"solid": false,
+			"persistent": false,
+			"bx": 1,
+			"by": 1,
+			"bz": 1,
+			"animations": {
+				"still": [
+					[0, 0, 1]
+				]
+			}
+		};
+		$("#template_selector").val("initial");
+		World.enumerateTempEditor(true);
 	},
 	loadLevel: function () {
 		// Prepare handles and values
@@ -378,7 +406,6 @@ World = {
 		var gradient = ctx.createLinearGradient(0, 0, 0, w.screen_height);
 		gradient.addColorStop(0, "rgba(214,249,255,1)");
 		gradient.addColorStop(1, "#001862");
-
 		// Fill the path
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, w.screen_width, w.screen_height);
@@ -472,6 +499,7 @@ World = {
 					w.send({
 						mouse: [0, w.cursor.x, w.cursor.y, w.cursor.z]
 					});
+					console.log("Clicked at " + w.cursor.x + ", " + w.cursor.y + ", " + w.cursor.z);
 				} else if (Key.get(MOUSE_MIDDLE) && Key.changed(MOUSE_MIDDLE)) {
 					// send middle mouseclick in world coordinates
 					w.send({

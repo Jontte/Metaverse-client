@@ -10,14 +10,15 @@ function toggleForms() {
 		$("#initial_message").html("");
 	}
 }
-
+function tile(what,x,y,z){
+	World.socket.send('{"add-object":["' + what + '",' + x + ',' + y + ',' + z + ']}');
+}
 function setTitle(tothis) {
 	window.setTimeout(function () {
 		$(document).attr("title", tothis);
 	}, 200);
 }
 $(function () {
-
 	// Make sure the browser supports websockets...
 	if (!window.MozWebSocket && !window.WebSocket) {
 		alert('Your browser does not support WebSockets.');
@@ -110,16 +111,25 @@ $(function () {
 				}
 			});
 			$("#tempeditor_width").change(function () {
-				$("#tempeditor_image > div > div").css("width", ($(this).val() * 32) + "px");
+				$("#tempeditor_image > div > div").css({
+					width: ((World.workingTemplate.by + Number($(this).val())) * 16) + "px",
+					height: ((World.workingTemplate.by + Number($(this).val()) +  World.workingTemplate.bz * 2) * 8) + "px"
+				});
 				$("#tempeditor_width_disp").text($(this).val());
 				World.workingTemplate.bx = Number($(this).val());
 			});
 			$("#tempeditor_length").change(function () {
+				$("#tempeditor_image > div > div").css({
+					width: ((World.workingTemplate.bx + Number($(this).val())) * 16) + "px",
+					height: ((World.workingTemplate.bx + Number($(this).val()) +  World.workingTemplate.bz * 2) * 8) + "px"
+				});
 				$("#tempeditor_length_disp").text($(this).val());
 				World.workingTemplate.by = Number($(this).val());
 			});
 			$("#tempeditor_height").change(function () {
-				$("#tempeditor_image > div > div").css("height", ($(this).val() * 32) + "px");
+				$("#tempeditor_image > div > div").css({
+					height: ((World.workingTemplate.bx + World.workingTemplate.by + Number($(this).val()) * 2) * 8) + "px"
+				});
 				$("#tempeditor_height_disp").text($(this).val());
 				World.workingTemplate.bz = Number($(this).val());
 			});
@@ -135,7 +145,7 @@ $(function () {
 			});
 			$("#tempeditor_tick").change(function () {
 				$("#tempeditor_tick_disp").text($(this).val());
-				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() +$("#tempeditor_animation_frame").val() +  " = [" + Number($("#tempeditor_x").val()) + ", " + Number($("#tempeditor_y").val()) + ", " + Number($(this).val()) + "]");
+				eval("World.workingTemplate.animations" + $("#tempeditor_animation").val() + $("#tempeditor_animation_frame").val() + " = [" + Number($("#tempeditor_x").val()) + ", " + Number($("#tempeditor_y").val()) + ", " + Number($(this).val()) + "]");
 			});
 			$(window).focusin(function () {
 				World.isFocused = true;
@@ -158,7 +168,7 @@ $(function () {
 			});
 		};
 		window.onbeforeunload = function () {
-			if (!World.logging_out) return "Do you really want to leave MetaVerse?";
+			if (!World.logging_out) return "Do you want to log out of MetaVerse?";
 		};
 		$(document).keydown(function (e) {
 			if (((e.keyCode == 38) || (e.keyCode == 40)) && ($("#console_lines, #messages").is(":visible"))) {
@@ -169,7 +179,7 @@ $(function () {
 				} else {
 					$("#chat").focus();
 				}
-			} else if ((e.keyCode == 13) && ($(".alert").is(":visible"))){
+			} else if ((e.keyCode == 13) && ($(".alert").is(":visible"))) {
 				$(".cancel").trigger("click");
 				return false;
 			}
@@ -179,7 +189,7 @@ $(function () {
 			World.loaderBox(true);
 			World.alertBox({
 				title: "Oops!",
-				message: 'There was an error logging in, check your username and password.',
+				message: 'There was an error logging in. Please check your username and password.',
 				cancel: "OK",
 				cancel_color: "#23D422"
 			});

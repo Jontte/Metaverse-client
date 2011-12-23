@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="js/util.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/game.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/main.js?<? echo time(); ?>"></script>
+	<script type="text/javascript" src="js/sounds.js?<? echo time(); ?>"></script>
 	<script type="text/javascript" src="js/swfobject.js"></script>
 	<script type="text/javascript" src="js/web_socket.js"></script>
 	<script type="text/javascript">WEB_SOCKET_SWF_LOCATION="WebSocketMain.swf"</script>
@@ -69,7 +70,7 @@
 		<div id="toolbar">
 			<div id="messages_button" onclick="World.showMessageWindow()"></div>
 			<div id="tempeditor_button" onclick="World.showTemplateWindow()"></div>
-			<input type="text" id="chat" placeholder="Type a message..." tabindex="1" autocomplete="off" />
+			<input type="text" id="chat" tabindex="1" autocomplete="off" />
 			<div id="logout_button" onclick="World.logout()"></div>
 		</div>
 	</div>
@@ -89,12 +90,14 @@
 		<img src="images/tempeditor_banner.png" id="tempeditor_handle" alt="Template Editor" />
         <div id="tempeditor_content">
         	<select id="template_selector" onchange="World.enumerateTempEditor()">
-        		<option disabled>Templates</option>
+        		<option value="initial" disabled>Templates</option>
         	</select>
         	<input type="button" onclick="World.readTemplates()" value="Reload Templates" />
+        	<input type="button" onclick="World.addTemplate()" value="New" /> 
         	<input type="button" onclick="World.saveTemplate()" value="Save" /><br /><br />
         	Resource: <input type="text" id="tempeditor_resource" onkeyup="World.workingTemplate.resource=$(this).val()" /><br />
         	Solid: <input type="checkbox" id="tempeditor_solid" onchange="World.workingTemplate.solid=$(this).is(':checked')" /><br />
+        	Persistent: <input type="checkbox" id="tempeditor_persistent" onchange="World.workingTemplate.persistent=$(this).is(':checked')" /><br />
         	Width: <input type="range" min="1" max="10" value="1" step="1" id="tempeditor_width" /> <span id="tempeditor_width_disp">1</span><br />
         	Length: <input type="range" min="1" max="10" value="1" step="1" id="tempeditor_length" /> <span id="tempeditor_length_disp">1</span><br />
         	Height: <input type="range" min="1" max="10" value="1" step="1" id="tempeditor_height" /> <span id="tempeditor_height_disp">1</span><br /><br />
