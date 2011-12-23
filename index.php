@@ -104,8 +104,8 @@
         	<strong>Sprite Position:</strong><br />
         	Animation: <select id="tempeditor_animation" onchange="World.enumerateTempEditorAnim()"></select> <input type="button" value="+" onclick="World.addAnimation()" /> <input type="button" value="-" onclick="World.removeAnimation()" /><br />
         	Frame: <select id="tempeditor_animation_frame" onchange="World.enumerateTempEditorAnimFrame()"></select> <input type="button" value="+" onclick="World.addAnimFrame()" /> <input type="button" value="-" onclick="World.removeAnimFrame()" /><br />
-        	X: <input type="range" min="0" max="10" value="0" step="1" id="tempeditor_x" /> <span id="tempeditor_x_disp">0</span><br />
-        	Y: <input type="range" min="0" max="10" value="0" step="1" id="tempeditor_y" /> <span id="tempeditor_y_disp">0</span><br />
+        	X: <input type="range" min="0" max="15" value="0" step="1" id="tempeditor_x" /> <span id="tempeditor_x_disp">0</span><br />
+        	Y: <input type="range" min="0" max="11" value="0" step="1" id="tempeditor_y" /> <span id="tempeditor_y_disp">0</span><br />
         	Tick: <input type="range" min="1" max="10" value="0" step="1" id="tempeditor_tick" /> <span id="tempeditor_tick_disp">1</span><br />
         	Play <span id="tempeditor_animname"></span> animation: <input type="checkbox" id="tempeditor_playanim" onchange="World.playAnimation()" />
         	<div id="tempeditor_image"><div><div></div></div></div>
